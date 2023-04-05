@@ -1,27 +1,35 @@
-
+#include <vector>
+#include <string>
 
 #ifndef H_TOURNAMENT_DESIGN
 #define H_TOURNAMENT_DESIGN
 
+namespace design {
 
-class TournamentDesign
-{
+    class TournamentDesign
+    {
 
-    public:
-        TournamentDesign(int n);
-        ~TournamentDesign();
+        public:
+            TournamentDesign(int n);
+            //~TournamentDesign();
 
-        virtual bool validate_design(TournamentDesign design);
+            virtual bool validate_design() = 0;
 
-    private:
-        int n;
-        int n_courts;
-        int n_rounds;
-        int n_teams;
+            virtual std::string to_string();
+            
+        protected:
+            int n;
+            int n_courts;
+            int n_rounds;
+            int n_teams;
 
-};
+            std::vector<std::vector<int>> design;
 
+            virtual std::vector<std::vector<int>> construct_design(int n) = 0;
 
+    };
+
+}
 
 
 #endif // !H_TOURNAMENT_DESIGN

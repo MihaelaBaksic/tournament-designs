@@ -6,7 +6,7 @@ BUILD = build
 OBJ = $(BUILD)/objects
 MKDIR_P = mkdir -p
 
-ALL_OBJECTS = $(OBJ)/main.o $(OBJ)/io.o $(OBJ)/utils.o $(OBJ)/TD.o $(OBJ)/BTD.o $(OBJ)/latin_square.o $(OBJ)/cell.o $(OBJ)/element.o
+ALL_OBJECTS = $(OBJ)/main.o $(OBJ)/io.o $(OBJ)/utils.o $(OBJ)/TD.o $(OBJ)/BTD.o $(OBJ)/latin_square.o 
 
 # define build directories
 .PHONY: DIRECTORIES
@@ -48,13 +48,6 @@ $(OBJ)/TD.o: $(SRC)/designs/TD.h $(SRC)/designs/TD.cpp
 $(OBJ)/BTD.o: $(SRC)/designs/BTD.h $(SRC)/designs/BTD.cpp
 	$(CC) -c $(SRC)/designs/BTD.cpp -o $(OBJ)/BTD.o
 
-
-$(OBJ)/cell.o: $(SRC)/designs/cell.h $(SRC)/designs/cell.cpp
-	$(CC) -c $(SRC)/designs/cell.cpp -o $(OBJ)/cell.o
-
-
-$(OBJ)/element.o: $(SRC)/designs/element.h $(SRC)/designs/element.cpp
-	$(CC) -c $(SRC)/designs/element.cpp -o $(OBJ)/element.o
 
 $(OBJ)/latin_square.o: $(SRC)/designs/latin_square.h $(SRC)/designs/latin_square.cpp
 	$(CC) -c $(SRC)/designs/latin_square.cpp -o $(OBJ)/latin_square.o
