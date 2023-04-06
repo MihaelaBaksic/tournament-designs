@@ -1,4 +1,5 @@
 #include <vector>
+#include <set>
 #include <string>
 
 #ifndef H_TOURNAMENT_DESIGN
@@ -23,10 +24,10 @@ namespace design {
             int n_rounds;
             int n_teams;
 
-            std::vector<std::vector<int>> design;
+            std::vector<std::vector<std::set<int>>> design;
 
-            virtual std::vector<std::vector<int>> construct_design(int n) = 0;
-
+            virtual std::vector<std::vector<std::set<int>>> construct_design(int n) = 0;
+            std::vector<std::vector<std::set<int>>> read_design(int n, std::string filename);
     };
 
 }

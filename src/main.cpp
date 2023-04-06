@@ -16,6 +16,4 @@ int main(int argc, char** argv)
 
     cout << d->to_string() << endl;
      
-    //cout << "Hello, this is TD(" << n << ")" << endl;
-
 }
