@@ -1,6 +1,9 @@
 #include "BTD.h"
 #include <assert.h>
 #include <iostream>
+#include <algorithm>
+#include <map>
+#include <utility>
 
 
 using namespace std;
@@ -13,6 +16,7 @@ design::BalancedTournamentDesign::BalancedTournamentDesign(int n) : TournamentDe
     
     assert (this->validate_design() && "Failed at constructing the design");
 }
+
 
 design::BalancedTournamentDesign::BalancedTournamentDesign(int n, string filename) : TournamentDesign(n) 
 {
@@ -47,9 +51,65 @@ bool design::BalancedTournamentDesign::validate_design()
     // rule no 2: every row contains every element of V exactly once
     // rule no 3: balanced property: every element of V appears in each column once or twice
 
+    for(int row=0; row < this->n_rounds; row++)
+    {
+        std::vector<int> elements(this->n_teams, 0);
+        for(auto pair: this->design[row])
+        {
+            int el_1 = *pair.begin();
+            int el_2 = *(++pair.begin());
 
+            if( el_1 < 0 || el_1 >= this->n_teams || el_2 < 0 || el_2 >= this->n_teams )
+            { 
+                cout << "Pair (" << el_1 << "," << el_2 << ") out of teams number scope [0," << this->n_teams -1 << "]" << endl;
+                return false;
+            }
+            elements[el_1] += 1;
+            elements[el_2] += 1;
+        }
 
-    return true;
+        int  num_incorrect_courts = count_if(elements.begin(), elements.end(), [](int i) {return i!=1;});
+        if(num_incorrect_courts > 0)
+        {
+            cout << "Error in row " << row << endl;
+            return false;
+        }
+
+    }
+
+    std::vector<vector<int>> elements(this->n_courts, vector<int>(this->n_teams, 0));
+    for(int col=0; col < this->n_courts; col++)
+    {
+        for(int row=0; row < this->n_rounds; row++)
+        {
+            elements[col][ * this->design[row][col].begin() ] += 1;
+            elements[col][ * (++this->design[row][col].begin()) ] += 1;
+        }
+    }
+    
+    for(auto col=0; col < this->n_courts; col++)
+    {
+        int num_incorrect = count_if(elements[col].begin(), elements[col].end(), [](int i) {return i!=1 && i !=2;});
+        if (num_incorrect > 0)
+        {
+            cout << "Error in column " << col << endl;
+            return false;
+        }
+    }
+
+    // check that every unordered pair occurs exactly once
+    map<pair<int,int>, int> pairs;
+    for(auto row : this->design)
+        for(auto p: row)
+        {
+            int i = *p.begin();
+            int j = *(++p.begin());
+            int min = i <= j ? i : j;
+            int max = i > j ? i : j;
+            pairs[pair<int, int>(min, max)] = 1;
+        }
+
+    return pairs.size() == this->n_teams* (this->n_teams - 1) / 2.; 
 }
 
 
@@ -89,7 +149,9 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_manual(int 
     
     cout << "Manual construction of BTD(" << n << ")" << endl;
 
-    return vector<vector<set<int>>>(2*n - 1, vector<set<int>>(n, set<int>{7, 8}));
+    string filename = "./src/templates/FBTD_" + std::to_string(n) + ".in";
+
+    return TournamentDesign::read_design(n, filename);
 }   
 
 

@@ -69,7 +69,7 @@ vector<vector<set<int>>> design::TournamentDesign::read_design(int n, string fil
             {
                 std::set<int> pair_set;
                 boost::tokenizer<> tok(pair);
-                std::transform( tok.begin(), tok.end(), std::inserter(pair_set, pair_set.begin()), &boost::lexical_cast<int,std::string> );
+                std::transform( tok.begin(), tok.end(), std::inserter(pair_set, pair_set.begin()), &boost::lexical_cast<int,std::string>);
 
                 row.push_back(pair_set);
 
