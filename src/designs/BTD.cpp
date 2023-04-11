@@ -20,7 +20,8 @@ design::BalancedTournamentDesign::BalancedTournamentDesign(int n, string filenam
 
     this->design = this->read_design(this->n, filename);
     
-    assert (this->validate_design() && "Failed at constructing the design");
+    assert (this->validate_design() && "Design from file is not a valid BTD");
+
 }
 
 

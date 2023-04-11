@@ -9,7 +9,11 @@
 #include <set>
 #include <boost/algorithm/string/classification.hpp> // Include boost::for is_any_of
 #include <boost/algorithm/string/split.hpp> // Include for boost::split
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/join.hpp>
+#include <boost/range/adaptor/transformed.hpp>
 #include "TD.h"
+#include "../utils/utils.h"
 
 using namespace std;
 
@@ -25,25 +29,21 @@ design::TournamentDesign::TournamentDesign(int n)
 
 std::string design::TournamentDesign::to_string()
 {   
-    std::string s = "";
 
-    for(int row = 0; row < this->n_rounds; row++)
+    vector<string> rows;
+
+    for(auto row : this->design)
     {
-        
-        for(int col = 0; col < this->n_courts; col++)
-        {
-            auto cell_it = this->design[row][col].begin();
-            std::string tmp = std::to_string(*cell_it);
-            tmp += " ";
-            tmp += std::to_string(*(++cell_it));
-            s += ";";
-            s += tmp;
-            
-        }
-        s += "\n";
-    }
-    return s;
+        vector<string> pair_string;
 
+        std::transform( row.begin(), row.end(), std::back_inserter(pair_string), 
+                            [](set<int> pair) { 
+                                return boost::algorithm::join( pair | boost::adaptors::transformed( static_cast<std::string(*)(int)>(std::to_string) ), " " ); 
+                            } );
+
+        rows.push_back(boost::algorithm::join(pair_string, ";"));
+    }
+    return boost::algorithm::join(rows, "\n");
 }
 
 
@@ -53,23 +53,29 @@ vector<vector<set<int>>> design::TournamentDesign::read_design(int n, string fil
     ifstream input_file(filename);
     if(input_file.is_open())
     {
+        
         string line;
         while (getline(input_file, line)) 
-        {
+        {   
+            boost::trim(line);
+
+            //cout << line << endl;
+
             vector<set<int>> row;
             vector<string> pairs;
-            string s;
-            boost::split(pairs, s, boost::is_any_of(";"), boost::token_compress_on);
+            boost::split(pairs, line, boost::is_any_of(";"), boost::token_compress_on);
 
             for(auto pair : pairs)
             {
                 std::set<int> pair_set;
                 boost::tokenizer<> tok(pair);
-                std::transform( tok.begin(), tok.end(), std::back_inserter(pair), &boost::lexical_cast<int,std::string> );
-                row.push_back(pair_set);
-            }
+                std::transform( tok.begin(), tok.end(), std::inserter(pair_set, pair_set.begin()), &boost::lexical_cast<int,std::string> );
 
+                row.push_back(pair_set);
+
+            }
             design.push_back(row);
+
         }
         input_file.close();
     }
