@@ -138,7 +138,80 @@ std::vector<std::vector<std::set<int>>> design::BalancedTournamentDesign::constr
 
 vector<vector<set<int>>> design::BalancedTournamentDesign::construct_odd_side(int n)
 {
-    return vector<vector<set<int>>>(2*n - 1, vector<set<int>>(n, set<int>{5, 6}));
+    int k = (n-1)/2;
+    cout << "k = " << k << endl;
+    vector<vector<vector<int>>> main(2*n-1, vector<vector<int>>(n, vector<int>(2, 0)));
+    vector<vector<vector<int>>> index(2*n-1, vector<vector<int>>(n, vector<int>(2, -1)));
+
+    main[0][0][0] = 0;
+    main[0][0][1] = 0;
+
+    for(int col= 0; col < n; col++)
+    {
+        index[0][col][0] = 1;
+        index[0][col][1] = 2;
+
+        for(int row=0; row < 2*n -1; row++)
+        {
+            if(row > 0)
+            {
+                //first term (indexing: row, column, term)
+                main[row][0][0] = (row - 1) % k + 1;
+                //second term
+                main[row][0][1] =  2*k - (row -1) % k ;
+            }
+
+            if( 1 <= row && row <= k)
+            {
+                index[row][col][0] = 1;
+                index[row][col][1] = 1;
+            }
+            else if (k+1 <= row && row <= 2*k)
+            {
+                index[row][col][0] = 2;
+                index[row][col][1] = 2;
+            }
+            else if(2*k+1 <= row && row <= 3*k)
+            {
+                index[row][col][0] = 1;
+                index[row][col][1] = 2;
+            }
+            else
+            {
+                index[row][col][0] = 2;
+                index[row][col][1] = 1;
+            }
+
+            if(col > 0)
+            {   
+                main[row][col][0] = (main[row][col-1][0] +1) % n;
+                main[row][col][1] = (main[row][col-1][1] +1) % n;
+            }
+        }
+    }
+
+
+    cout << "MAIN" << endl;
+    for(auto row: main)
+    {
+        for(auto pair: row)
+        {
+            cout << pair[0] << " " << pair[1] << ";";
+        }
+        cout << endl;
+    }
+
+    cout << endl << "INDEX" << endl;
+    for(auto row: index)
+    {
+        for(auto pair: row)
+        {
+            cout << pair[0] << " " << pair[1] << ";";
+        }
+        cout << endl;
+    }
+
+    return vector<vector<set<int>>>(2*n -1 , vector<set<int>>(n, set<int>({3, 4})));
 }
 
 
