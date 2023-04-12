@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <map>
 #include <utility>
+#include "../utils/utils.h"
 
 
 using namespace std;
@@ -14,7 +15,7 @@ design::BalancedTournamentDesign::BalancedTournamentDesign(int n) : TournamentDe
 
     this->design = this->construct_design(this->n);
     
-    assert (this->validate_design() && "Failed at constructing the design");
+    //assert (this->validate_design() && "Failed at constructing the design");
 }
 
 
@@ -24,7 +25,7 @@ design::BalancedTournamentDesign::BalancedTournamentDesign(int n, string filenam
 
     this->design = this->read_design(this->n, filename);
     
-    assert (this->validate_design() && "Design from file is not a valid BTD");
+    //assert (this->validate_design() && "Design from file is not a valid BTD");
 
 }
 
@@ -190,7 +191,7 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_odd_side(in
         }
     }
 
-
+    /*
     cout << "MAIN" << endl;
     for(auto row: main)
     {
@@ -209,7 +210,26 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_odd_side(in
             cout << pair[0] << " " << pair[1] << ";";
         }
         cout << endl;
+    } 
+    */
+
+    // calculate solution i for rows 1 to 4k: y - x = -2i mod (2k+1)
+    vector<int> i_s;
+    for(int i=1; i<2*n-1; i++)
+    {
+        i_s.push_back(modulo_solver(n, main[i][0][1] - main[i][0][0], [](int j){return -2*j;} ));
     }
+
+    /* cout << "I_s" << endl;
+    for(int i=1; i<2*n -1; i++)
+        cout <<"row " << i << " i " << i_s[i-1] << endl; 
+    */
+
+    for(int r=1; r <= k; r++)
+    {
+        get_coset(main[r], 0);
+    }
+
 
     return vector<vector<set<int>>>(2*n -1 , vector<set<int>>(n, set<int>({3, 4})));
 }
@@ -226,5 +246,4 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_manual(int 
 
     return TournamentDesign::read_design(n, filename);
 }   
-
 

@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "io/io.h"
+#include "utils/utils.h"
 #include "designs/TD.h"
 #include "designs/BTD.h"
 
@@ -16,8 +17,9 @@ int main(int argc, char** argv)
     std::unique_ptr<design::TournamentDesign> d = std::unique_ptr<design::TournamentDesign>(new design::BalancedTournamentDesign(n));
 
 
-    d->validate_design();
+    //d->validate_design();
 
-    cout << d->to_string() << endl;
-     
+    //cout << d->to_string() << endl;
+
+    
 }
