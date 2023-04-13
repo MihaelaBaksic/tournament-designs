@@ -329,8 +329,8 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_odd_side(in
     {
         for(int col=0; col < n; col++)
         {
-            main[row][col][0] = main[row][col][0] + (index[row][col][0] - 1)*3;
-            main[row][col][1] = main[row][col][1] + (index[row][col][1] - 1)*3;
+            main[row][col][0] = main[row][col][0] + (index[row][col][0] - 1)*5; // replace with period for that row
+            main[row][col][1] = main[row][col][1] + (index[row][col][1] - 1)*5; // replace with period for that row
         }
     }
     
