@@ -3,21 +3,22 @@
 #include <iostream>
 
 
-int modulo_period(int m, std::function<int(int)> func) // maybe can be implemented differently
+int modulo_period(int m, int left, int right) // maybe can be implemented differently
 {
-    int i=1;
-    int last_elem = ((func(0) % m) + m ) % m;
-    while ( (func(i) % m + m ) % m != last_elem)
-        i += 1;
+    int cnt = 1;
 
-    return i;  
+    while(left != right)
+    {
+        left = ((left + right) % m + m ) % m;
+        cnt++;
+    }
+    return cnt;
 }
 
 int modulo_solver(int m, int function_value, std::function<int(int)> func)
 {
-    int period = modulo_period(m, func);
     int function_value_mod = (function_value % m + m) % m;
-    for(int i=0; i < period; i++)
+    for(int i=0; i < m; i++)
     {
         int function_result_mod = (func(i) % m + m ) % m;
         if( function_value_mod == function_result_mod)

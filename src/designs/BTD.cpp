@@ -177,7 +177,7 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_odd_side(in
                 index[row][col][0] = 1;
                 index[row][col][1] = 2;
             }
-            else
+            else if(3*k+1 <= row && row <= 4*k)
             {
                 index[row][col][0] = 2;
                 index[row][col][1] = 1;
@@ -191,7 +191,7 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_odd_side(in
         }
     }
 
-    /*
+    
     cout << "MAIN" << endl;
     for(auto row: main)
     {
@@ -211,7 +211,7 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_odd_side(in
         }
         cout << endl;
     } 
-    */
+    
 
     // calculate solution i for rows 1 to 4k: y - x = -2i mod (2k+1)
     vector<int> i_s;
@@ -220,16 +220,129 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_odd_side(in
         i_s.push_back(modulo_solver(n, main[i][0][1] - main[i][0][0], [](int j){return -2*j;} ));
     }
 
-    /* cout << "I_s" << endl;
+    cout << "I_s" << endl;
     for(int i=1; i<2*n -1; i++)
         cout <<"row " << i << " i " << i_s[i-1] << endl; 
-    */
+    
 
+    vector<vector<int>> cosets;
     for(int r=1; r <= k; r++)
     {
-        get_coset(main[r], 0);
+        cosets.push_back(get_coset(main[r], 0));
     }
 
+    cout << "COSETS" << endl;
+
+    for(auto c : cosets)
+    {
+        for(auto i: c)
+        {
+            cout << i << " ";
+        }
+        cout << endl;
+    } 
+
+    for(int row=1; row<=k; row++)
+    {
+        // first rule
+        for(int c_idx=1; c_idx<cosets[row-1].size(); c_idx++) // only odd members of cosets as columns 
+        {
+            if(c_idx % 2 == 1)
+            {
+                index[row][cosets[row-1][c_idx]][0] = 2;
+                index[row][cosets[row-1][c_idx]][1] = 2;
+
+                index[k + row][cosets[row-1][c_idx]][0] = 1;
+                index[k + row][cosets[row-1][c_idx]][1] = 1;
+            }
+        }
+
+    }
+
+    cout << endl << "INDEX after first" << endl;
+    for(auto row: index)
+    {
+        for(auto pair: row)
+        {
+            cout << pair[0] << " " << pair[1] << ";";
+        }
+        cout << endl;
+    } 
+
+    for(int row=1; row<=k; row++)
+    {
+        // second rule
+        index[k + row][cosets[row-1][0]][0] = 1;
+        index[k + row][cosets[row-1][0]][1] = 2;
+
+        index[2*k + row][cosets[row-1][0]][0] = 2;
+        index[2*k + row][cosets[row-1][0]][1] = 2;
+
+    }
+
+    cout << endl << "INDEX after second" << endl;
+    for(auto row: index)
+    {
+        for(auto pair: row)
+        {
+            cout << pair[0] << " " << pair[1] << ";";
+        }
+        cout << endl;
+    } 
+
+
+    for(int row=1; row <=k; row++)
+    {
+        // third_rule
+        index[row][cosets[row-1][n-1]][0] = 1;
+        index[row][cosets[row-1][n-1]][1] = 2;
+
+        index[2*k + row][cosets[row-1][n-1]][0] = 1;
+        index[2*k + row][cosets[row-1][n-1]][1] = 1;
+    }
+
+    cout << endl << "INDEX after third" << endl;
+    for(auto row: index)
+    {
+        for(auto pair: row)
+        {
+            cout << pair[0] << " " << pair[1] << ";";
+        }
+        cout << endl;
+    } 
+
+    cout << "MAIN" << endl;
+    for(auto row: main)
+    {
+        for(auto pair: row)
+        {
+            cout << pair[0] << " " << pair[1] << ";";
+        }
+        cout << endl;
+    } 
+
+
+
+    // transform main
+
+    for(int row=0; row < 2*n -1 ; row++)
+    {
+        for(int col=0; col < n; col++)
+        {
+            main[row][col][0] = main[row][col][0] + (index[row][col][0] - 1)*3;
+            main[row][col][1] = main[row][col][1] + (index[row][col][1] - 1)*3;
+        }
+    }
+    
+    cout <<  endl << "MAIN TRANSFORMED" << endl;
+    for(auto row: main)
+    {
+        for(auto pair: row)
+        {
+            cout << pair[0] << " " << pair[1] << ";";
+        }
+        cout << endl;
+    }
 
     return vector<vector<set<int>>>(2*n -1 , vector<set<int>>(n, set<int>({3, 4})));
 }
