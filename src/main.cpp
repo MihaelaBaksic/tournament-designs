@@ -11,7 +11,8 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    int n = io_manip::assert_input_parameters(argc, argv);
+    //int n = io_manip::assert_input_parameters(argc, argv);
+    int n = 4;
 
     std::unique_ptr<design::TournamentDesign> d = std::unique_ptr<design::TournamentDesign>(new design::BalancedTournamentDesign(n));
 
