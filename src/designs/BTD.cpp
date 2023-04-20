@@ -14,6 +14,8 @@ design::BalancedTournamentDesign::BalancedTournamentDesign(int n) : TournamentDe
     assert (this->n > 2 && "Invalid side parameter");
 
     this->design = this->construct_design(this->n);
+
+    int i = 0;
     
     //assert (this->validate_design() && "Failed at constructing the design");
 }
@@ -52,10 +54,11 @@ bool design::BalancedTournamentDesign::validate_design()
     // rule no 2: every row contains every element of V exactly once
     // rule no 3: balanced property: every element of V appears in each column once or twice
 
+    
     for(int row=0; row < this->n_rounds; row++)
     {
         std::vector<int> elements(this->n_teams, 0);
-        for(auto pair: this->design[row])
+        for(std::vector<int> pair: this->design[row])
         {
             if( pair[0] < 0 || pair[0] >= this->n_teams || pair[1] < 0 || pair[1] >= this->n_teams )
             { 
@@ -74,6 +77,7 @@ bool design::BalancedTournamentDesign::validate_design()
         }
 
     }
+
 
     std::vector<vector<int>> elements(this->n_courts, vector<int>(this->n_teams, 0));
     for(int col=0; col < this->n_courts; col++)
@@ -189,26 +193,6 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
     }
 
     
-    cout << "MAIN" << endl;
-    for(auto row: main)
-    {
-        for(auto pair: row)
-        {
-            cout << pair[0] << " " << pair[1] << ";";
-        }
-        cout << endl;
-    }
-
-    cout << endl << "INDEX" << endl;
-    for(auto row: index)
-    {
-        for(auto pair: row)
-        {
-            cout << pair[0] << " " << pair[1] << ";";
-        }
-        cout << endl;
-    } 
-    
 
     // calculate solution i for rows 1 to 4k: y - x = -2i mod (2k+1)
     vector<int> i_s;
@@ -216,88 +200,80 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
     {
         i_s.push_back(modulo_solver(n, main[i][0][1] - main[i][0][0], [](int j){return -2*j;} ));
     }
-
-    cout << "I_s" << endl;
-    for(int i=1; i<2*n -1; i++)
-        cout <<"row " << i << " i " << i_s[i-1] << endl; 
-    
-
-    vector<vector<int>> cosets;
-    for(int r=1; r <= k; r++)
+    vector<int> t_s;
+    for(auto i : i_s)
     {
-        cosets.push_back(get_coset(main[r], 0));
+        t_s.push_back(modulo_period(n, -2*i, ((-2*i % n) + n) % n));
     }
 
-    cout << "COSETS" << endl;
+    /*
+    cout << "I_s T_s" << endl;
+    for(int i=1; i<2*n -1; i++)
+        cout <<"row " << i << " i " << i_s[i-1] << " t " << t_s[i-1]<< endl; 
+    */
 
-    for(auto c : cosets)
+    vector<vector<vector<int>>> cosets;
+    for(int r=1; r <= k; r++)
     {
-        for(auto i: c)
-        {
-            cout << i << " ";
-        }
-        cout << endl;
-    } 
+        cosets.push_back(get_coset(main[r], n, t_s[r-1]));
+    }
+
+    
 
     for(int row=1; row<=k; row++)
     {
         // first rule
-        for(int c_idx=1; c_idx<cosets[row-1].size(); c_idx++) // only odd members of cosets as columns 
+        for(int c=0; c<cosets[row-1].size(); c++) // only odd members of cosets as columns 
         {
-            if(c_idx % 2 == 1)
+            for(int c_idx=1; c_idx<cosets[row-1][c].size(); c_idx++) 
             {
-                index[row][cosets[row-1][c_idx]][0] = 2;
-                index[row][cosets[row-1][c_idx]][1] = 2;
+                
+                if(c_idx % 2 == 1)
+                {
+                    index[row][cosets[row-1][c][c_idx]][0] = 2;
+                    index[row][cosets[row-1][c][c_idx]][1] = 2;
 
-                index[k + row][cosets[row-1][c_idx]][0] = 1;
-                index[k + row][cosets[row-1][c_idx]][1] = 1;
+                    index[k + row][cosets[row-1][c][c_idx]][0] = 1;
+                    index[k + row][cosets[row-1][c][c_idx]][1] = 1;
+                }
+
             }
+        
         }
-
     }
+    int i=0;
 
-    cout << endl << "INDEX after first" << endl;
-    for(auto row: index)
-    {
-        for(auto pair: row)
-        {
-            cout << pair[0] << " " << pair[1] << ";";
-        }
-        cout << endl;
-    } 
-
+    
     for(int row=1; row<=k; row++)
-    {
-        // second rule
-        index[k + row][cosets[row-1][0]][0] = 1;
-        index[k + row][cosets[row-1][0]][1] = 2;
+    {   
+        for(int c=0; c<cosets[row-1].size(); c++)
+        {
+            index[k + row][cosets[row-1][c][0]][0] = 1;
+            index[k + row][cosets[row-1][c][0]][1] = 2;
 
-        index[2*k + row][cosets[row-1][0]][0] = 2;
-        index[2*k + row][cosets[row-1][0]][1] = 2;
+            index[2*k + row][cosets[row-1][c][0]][0] = 2;
+            index[2*k + row][cosets[row-1][c][0]][1] = 2;
+        }
+        // second rule
 
     }
-
-    cout << endl << "INDEX after second" << endl;
-    for(auto row: index)
-    {
-        for(auto pair: row)
-        {
-            cout << pair[0] << " " << pair[1] << ";";
-        }
-        cout << endl;
-    } 
-
+    
+   cout << "DD" << endl;
 
     for(int row=1; row <=k; row++)
     {
-        // third_rule
-        index[row][cosets[row-1][n-1]][0] = 1;
-        index[row][cosets[row-1][n-1]][1] = 2;
+        for(int c=0; c<cosets[row-1].size(); c++)
+        {
+            // third_rule
+            index[row][cosets[row-1][c][ cosets[row-1][c].size() -1 ]][0] = 1;
+            index[row][cosets[row-1][c][ cosets[row-1][c].size() -1  ]][1] = 2;
 
-        index[2*k + row][cosets[row-1][n-1]][0] = 1;
-        index[2*k + row][cosets[row-1][n-1]][1] = 1;
+            index[2*k + row][cosets[row-1][c][ cosets[row-1][c].size() -1  ]][0] = 1;
+            index[2*k + row][cosets[row-1][c][ cosets[row-1][c].size() -1  ]][1] = 1;
+        }
     }
 
+    /*
     cout << endl << "INDEX after third" << endl;
     for(auto row: index)
     {
@@ -308,7 +284,7 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
         cout << endl;
     } 
 
-    cout << "MAIN" << endl;
+    cout << "MAIN after third" << endl;
     for(auto row: main)
     {
         for(auto pair: row)
@@ -317,21 +293,22 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
         }
         cout << endl;
     } 
+    */
 
 
-
-    // transform main
+    //Transform main
 
     for(int row=0; row < 2*n -1 ; row++)
     {
         for(int col=0; col < n; col++)
         {
-            main[row][col][0] = main[row][col][0] + (index[row][col][0] - 1)*5; // replace with period for that row
-            main[row][col][1] = main[row][col][1] + (index[row][col][1] - 1)*5; // replace with period for that row
+            main[row][col][0] = main[row][col][0] + (index[row][col][0] - 1)*n; // replace with modulo
+            main[row][col][1] = main[row][col][1] + (index[row][col][1] - 1)*n; // replace with modulo
         }
     }
     
-    cout <<  endl << "MAIN TRANSFORMED" << endl;
+
+    /*cout <<  endl << "MAIN TRANSFORMED" << endl;
     for(auto row: main)
     {
         for(auto pair: row)
@@ -340,10 +317,12 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
         }
         cout << endl;
     }
+    */
+    
 
-    return vector<vector<vector<int>>>(2*n -1 , vector<vector<int>>(n, vector<int>({3, 4})));
+    return main;
+    
 }
-
 
 
 vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_manual(int n)
