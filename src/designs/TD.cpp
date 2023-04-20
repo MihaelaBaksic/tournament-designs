@@ -37,7 +37,7 @@ std::string design::TournamentDesign::to_string()
         vector<string> pair_string;
 
         std::transform( row.begin(), row.end(), std::back_inserter(pair_string), 
-                            [](set<int> pair) { 
+                            [](vector<int> pair) { 
                                 return boost::algorithm::join( pair | boost::adaptors::transformed( static_cast<std::string(*)(int)>(std::to_string) ), " " ); 
                             } );
 
@@ -47,9 +47,9 @@ std::string design::TournamentDesign::to_string()
 }
 
 
-vector<vector<set<int>>> design::TournamentDesign::read_design(int n, string filename)
+vector<vector<vector<int>>> design::TournamentDesign::read_design(int n, string filename)
 {   
-    vector<vector<set<int>>> design;
+    vector<vector<vector<int>>> design;
     ifstream input_file(filename);
     if(input_file.is_open())
     {
@@ -61,13 +61,14 @@ vector<vector<set<int>>> design::TournamentDesign::read_design(int n, string fil
 
             //cout << line << endl;
 
-            vector<set<int>> row;
+            vector<vector<int>> row;
             vector<string> pairs;
             boost::split(pairs, line, boost::is_any_of(";"), boost::token_compress_on);
 
+
             for(auto pair : pairs)
             {
-                std::set<int> pair_set;
+                std::vector<int> pair_set;
                 boost::tokenizer<> tok(pair);
                 std::transform( tok.begin(), tok.end(), std::inserter(pair_set, pair_set.begin()), &boost::lexical_cast<int,std::string>);
 
@@ -82,7 +83,5 @@ vector<vector<set<int>>> design::TournamentDesign::read_design(int n, string fil
     else
         throw std::invalid_argument("Unable to open specified design file");
 
-
     return design;
-
 }

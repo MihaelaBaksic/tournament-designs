@@ -13,13 +13,13 @@ int main(int argc, char** argv)
 {
     int n = io_manip::assert_input_parameters(argc, argv);
 
-    //std::unique_ptr<design::TournamentDesign> d = std::unique_ptr<design::TournamentDesign>(new design::BalancedTournamentDesign(n, "./src/templates/FBTD_4.in"));
     std::unique_ptr<design::TournamentDesign> d = std::unique_ptr<design::TournamentDesign>(new design::BalancedTournamentDesign(n));
 
+    cout << d->to_string() << endl;
 
-    //d->validate_design();
+    d->validate_design();
 
-    //cout << d->to_string() << endl;
+    
 
     
 }

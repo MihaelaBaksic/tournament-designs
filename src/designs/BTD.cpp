@@ -31,7 +31,7 @@ design::BalancedTournamentDesign::BalancedTournamentDesign(int n, string filenam
 
 
 
-vector<vector<set<int>>> design::BalancedTournamentDesign::construct_design(int n)
+vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_design(int n)
 {
     if(n == 4 or n == 6)
         return this->construct_manual(n);
@@ -43,8 +43,8 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_design(int 
     else
         return this->construct_even_side(n);
 
-
 }
+
 
 bool design::BalancedTournamentDesign::validate_design()
 {
@@ -57,16 +57,13 @@ bool design::BalancedTournamentDesign::validate_design()
         std::vector<int> elements(this->n_teams, 0);
         for(auto pair: this->design[row])
         {
-            int el_1 = *pair.begin();
-            int el_2 = *(++pair.begin());
-
-            if( el_1 < 0 || el_1 >= this->n_teams || el_2 < 0 || el_2 >= this->n_teams )
+            if( pair[0] < 0 || pair[0] >= this->n_teams || pair[1] < 0 || pair[1] >= this->n_teams )
             { 
-                cout << "Pair (" << el_1 << "," << el_2 << ") out of teams number scope [0," << this->n_teams -1 << "]" << endl;
+                cout << "Pair (" << pair[0] << "," << pair[1] << ") out of teams number scope [0," << this->n_teams -1 << "]" << endl;
                 return false;
             }
-            elements[el_1] += 1;
-            elements[el_2] += 1;
+            elements[pair[0]] += 1;
+            elements[pair[1]] += 1;
         }
 
         int  num_incorrect_courts = count_if(elements.begin(), elements.end(), [](int i) {return i!=1;});
@@ -103,8 +100,8 @@ bool design::BalancedTournamentDesign::validate_design()
     for(auto row : this->design)
         for(auto p: row)
         {
-            int i = *p.begin();
-            int j = *(++p.begin());
+            int i = p[0];
+            int j = p[1];
             int min = i <= j ? i : j;
             int max = i > j ? i : j;
             pairs[pair<int, int>(min, max)] = 1;
@@ -115,14 +112,14 @@ bool design::BalancedTournamentDesign::validate_design()
 
 
 
-std::vector<std::vector<std::set<int>>> design::BalancedTournamentDesign::construct_even_side(int n)
+std::vector<std::vector<std::vector<int>>> design::BalancedTournamentDesign::construct_even_side(int n)
 {
-    std::vector<std::vector<std::set<int>>> upper_left = this->construct_design(n/2);
+    std::vector<std::vector<std::vector<int>>> upper_left = this->construct_design(n/2);
 
-    std::vector<std::vector<std::set<int>>> upper_right = vector<vector<set<int>>>(n - 1, vector<set<int>>(n/2, set<int>({1, 2}))); 
+    std::vector<std::vector<std::vector<int>>> upper_right = vector<vector<vector<int>>>(n - 1, vector<vector<int>>(n/2, vector<int>({1, 2}))); 
 
 
-    std::vector<std::vector<std::set<int>>> lower =  vector<vector<set<int>>>(n, vector<set<int>>(n, set<int>({3, 4}))); // call to construct a join of 2 orthogonal mates of Latin Squares of order n
+    std::vector<std::vector<std::vector<int>>> lower =  vector<vector<vector<int>>>(n, vector<vector<int>>(n, vector<int>({3, 4}))); // call to construct a join of 2 orthogonal mates of Latin Squares of order n
 
     for(auto i=0; i<n-1; i++ )
     {
@@ -137,7 +134,7 @@ std::vector<std::vector<std::set<int>>> design::BalancedTournamentDesign::constr
 
 
 
-vector<vector<set<int>>> design::BalancedTournamentDesign::construct_odd_side(int n)
+vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side(int n)
 {
     int k = (n-1)/2;
     cout << "k = " << k << endl;
@@ -344,12 +341,12 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_odd_side(in
         cout << endl;
     }
 
-    return vector<vector<set<int>>>(2*n -1 , vector<set<int>>(n, set<int>({3, 4})));
+    return vector<vector<vector<int>>>(2*n -1 , vector<vector<int>>(n, vector<int>({3, 4})));
 }
 
 
 
-vector<vector<set<int>>> design::BalancedTournamentDesign::construct_manual(int n)
+vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_manual(int n)
 {
     assert ((n == 4 || n == 6 ) && "Invalid side argument for construct manual"); 
     
@@ -357,6 +354,9 @@ vector<vector<set<int>>> design::BalancedTournamentDesign::construct_manual(int 
 
     string filename = "./src/templates/FBTD_" + std::to_string(n) + ".in";
 
-    return TournamentDesign::read_design(n, filename);
+    auto i = TournamentDesign::read_design(n, filename);
+
+    cout << "A" << endl;
+    return i;
 }   
 

@@ -17,7 +17,7 @@ namespace design {
             virtual bool validate_design() = 0;
 
             virtual std::string to_string();
-            static std::vector<std::vector<std::set<int>>> read_design(int n, std::string filename);
+            static std::vector<std::vector<std::vector<int>>> read_design(int n, std::string filename);
             
         protected:
             int n;
@@ -25,9 +25,9 @@ namespace design {
             int n_rounds;
             int n_teams;
 
-            std::vector<std::vector<std::set<int>>> design;
+            std::vector<std::vector<std::vector<int>>> design;
 
-            virtual std::vector<std::vector<std::set<int>>> construct_design(int n) = 0;
+            virtual std::vector<std::vector<std::vector<int>>> construct_design(int n) = 0;
             
     };
 
