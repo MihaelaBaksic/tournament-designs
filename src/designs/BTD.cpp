@@ -141,7 +141,6 @@ std::vector<std::vector<std::vector<int>>> design::BalancedTournamentDesign::con
 vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side(int n)
 {
     int k = (n-1)/2;
-    cout << "k = " << k << endl;
     vector<vector<vector<int>>> main(2*n-1, vector<vector<int>>(n, vector<int>(2, 0)));
     vector<vector<vector<int>>> index(2*n-1, vector<vector<int>>(n, vector<int>(2, -1)));
 
@@ -195,28 +194,17 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
     
 
     // calculate solution i for rows 1 to 4k: y - x = -2i mod (2k+1)
-    vector<int> i_s;
-    for(int i=1; i<2*n-1; i++)
+    //vector<int> i_s(k, 0);
+    vector<int> t_s(k, 0);
+    for(int i=1; i<=k; i++)
     {
-        i_s.push_back(modulo_solver(n, main[i][0][1] - main[i][0][0], [](int j){return -2*j;} ));
-    }
-    vector<int> t_s;
-    for(auto i : i_s)
-    {
-        t_s.push_back(modulo_period(n, -2*i, ((-2*i % n) + n) % n));
+        t_s[i-1] = modulo_period_gcd(n, modulo_solver(n, main[i][0][1] - main[i][0][0], [](int j){return -2*j;} ));
     }
 
-    /*
-    cout << "I_s T_s" << endl;
-    for(int i=1; i<2*n -1; i++)
-        cout <<"row " << i << " i " << i_s[i-1] << " t " << t_s[i-1]<< endl; 
-    */
 
     vector<vector<vector<int>>> cosets;
     for(int r=1; r <= k; r++)
-    {
-        cosets.push_back(get_coset(main[r], n, t_s[r-1]));
-    }
+        cosets.push_back(get_coset(main[r], n, t_s[r-1 % k]));
 
     
 
@@ -226,8 +214,7 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
         for(int c=0; c<cosets[row-1].size(); c++) // only odd members of cosets as columns 
         {
             for(int c_idx=1; c_idx<cosets[row-1][c].size(); c_idx++) 
-            {
-                
+            {   
                 if(c_idx % 2 == 1)
                 {
                     index[row][cosets[row-1][c][c_idx]][0] = 2;
@@ -238,41 +225,31 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
                 }
 
             }
-        
         }
     }
-    int i=0;
 
     
     for(int row=1; row<=k; row++)
     {   
         for(int c=0; c<cosets[row-1].size(); c++)
         {
+            // second rule
             index[k + row][cosets[row-1][c][0]][0] = 1;
             index[k + row][cosets[row-1][c][0]][1] = 2;
 
             index[2*k + row][cosets[row-1][c][0]][0] = 2;
             index[2*k + row][cosets[row-1][c][0]][1] = 2;
-        }
-        // second rule
 
-    }
-    
-   cout << "DD" << endl;
-
-    for(int row=1; row <=k; row++)
-    {
-        for(int c=0; c<cosets[row-1].size(); c++)
-        {
-            // third_rule
+            // third rule
             index[row][cosets[row-1][c][ cosets[row-1][c].size() -1 ]][0] = 1;
-            index[row][cosets[row-1][c][ cosets[row-1][c].size() -1  ]][1] = 2;
+            index[row][cosets[row-1][c][ cosets[row-1][c].size() -1 ]][1] = 2;
 
             index[2*k + row][cosets[row-1][c][ cosets[row-1][c].size() -1  ]][0] = 1;
             index[2*k + row][cosets[row-1][c][ cosets[row-1][c].size() -1  ]][1] = 1;
         }
-    }
 
+    }
+    
     /*
     cout << endl << "INDEX after third" << endl;
     for(auto row: index)

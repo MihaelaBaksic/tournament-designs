@@ -1,6 +1,7 @@
 
 #include "utils.h"
 #include <iostream>
+#include <algorithm>
 #include <set>
 
 
@@ -14,6 +15,10 @@ int modulo_period(int m, int left, int right) // maybe can be implemented differ
         cnt++;
     }
     return cnt;
+}
+
+int modulo_period_gcd(int m, int i){
+    return m / std::__gcd(m, i);
 }
 
 int modulo_solver(int m, int function_value, std::function<int(int)> func)

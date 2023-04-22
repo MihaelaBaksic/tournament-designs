@@ -15,7 +15,6 @@ int io_manip::assert_input_parameters(int argc, char** argv)
     regex pat("[0-9]+");
     assert (argc==2 && regex_match(argv[1], pat) && "Program requires one argument of type int");
     int n = atoi(argv[1]);
-    cout << n << endl;
     assert (n > 2 && "Side parameter must be bigger than 2!");
     return n; 
 }
