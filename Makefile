@@ -1,6 +1,7 @@
 
 CC=g++
 CC_FLAGS= -std=c++17 -g -O3
+CC_FLAGS_TEST = -lcppunit -Wall
 
 SRC = src
 BUILD = bin
@@ -11,7 +12,7 @@ OBJ = $(BUILD)/objects
 MKDIR_P = mkdir -p
 
 ALL_OBJECTS = $(OBJ)/io.o $(OBJ)/utils.o $(OBJ)/TD.o $(OBJ)/BTD.o $(OBJ)/latin_square.o 
-TEST_OBJECTS = $(OBJ_TEST)/test.o $(OBJ_TEST)/BTD_test.o
+TEST_OBJECTS = $(OBJ_TEST)/BTD_test.o
 
 # define build directories
 .PHONY: DIRECTORIES
@@ -38,8 +39,8 @@ $(BUILD)/prog: $(ALL_OBJECTS) $(OBJ)/main.o
 
 
 # link test object files
-$(BUILD_TEST)/test: $(TEST_OBJECTS) $(ALL_OBJECTS) 
-	$(CC) -o $(BUILD_TEST)/test $(ALL_OBJECTS) $(TEST_OBJECTS) $(CC_FLAGS)  
+$(BUILD_TEST)/test: $(OBJ_TEST)/test.o $(TEST_OBJECTS) $(ALL_OBJECTS) 
+	$(CC) -o $(BUILD_TEST)/test  $(OBJ_TEST)/test.o $(ALL_OBJECTS) $(TEST_OBJECTS) $(CC_FLAGS)  $(CC_FLAGS_TEST)
 
 
 
@@ -72,10 +73,10 @@ $(OBJ)/latin_square.o: $(SRC)/designs/latin_square.h $(SRC)/designs/latin_square
 # compile test source files
 
 $(OBJ_TEST)/BTD_test.o : $(TEST)/BTD_test.cpp
-	$(CC) -c $(TEST)/BTD_test.cpp -o $(OBJ_TEST)/BTD_test.o $(CC_FLAGS)
+	$(CC) -c $(TEST)/BTD_test.cpp -o $(OBJ_TEST)/BTD_test.o $(CC_FLAGS) $(CC_FLAGS_TEST)
 
-$(OBJ_TEST)/test.o : $(TEST)/test.cpp
-	$(CC) -c $(TEST)/test.cpp -o $(OBJ_TEST)/test.o $(CC_FLAGS)
+$(OBJ_TEST)/test.o : $(TEST_OBJECTS)
+	$(CC) -c $(TEST)/test.cpp -o $(OBJ_TEST)/test.o $(CC_FLAGS) $(CC_FLAGS_TEST)
 
 
 
@@ -83,8 +84,14 @@ $(OBJ_TEST)/test.o : $(TEST)/test.cpp
 clear:
 	rm -r $(BUILD)
 
+clear_t :
+	rm -r $(BUILD_TEST)
+
 
 t: DIRECTORIES $(BUILD_TEST)/test
+
+
+
 
 
 
