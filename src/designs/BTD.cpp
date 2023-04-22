@@ -126,10 +126,8 @@ std::vector<std::vector<std::vector<int>>> design::BalancedTournamentDesign::con
     std::vector<std::vector<std::vector<int>>> lower =  vector<vector<vector<int>>>(n, vector<vector<int>>(n, vector<int>({3, 4}))); // call to construct a join of 2 orthogonal mates of Latin Squares of order n
 
     for(auto i=0; i<n-1; i++ )
-    {
-
         upper_left[i].insert(std::end(upper_left[i]), std::begin(upper_right[i]), std::end(upper_right[i]));
-    }
+    
 
     upper_left.insert(std::end(upper_left), std::begin(lower), std::end(lower));
 
@@ -191,10 +189,8 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
         }
     }
 
-    
 
-    // calculate solution i for rows 1 to 4k: y - x = -2i mod (2k+1)
-    //vector<int> i_s(k, 0);
+    // calculate solution i for rows 1 to 4k: y - x = -2i mod (2k+1) and congruence period t for -2*i = mod n
     vector<int> t_s(k, 0);
     for(int i=1; i<=k; i++)
     {
@@ -207,7 +203,6 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
         cosets.push_back(get_coset(main[r], n, t_s[r-1 % k]));
 
     
-
     for(int row=1; row<=k; row++)
     {
         // first rule
@@ -223,7 +218,6 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
                     index[k + row][cosets[row-1][c][c_idx]][0] = 1;
                     index[k + row][cosets[row-1][c][c_idx]][1] = 1;
                 }
-
             }
         }
     }
@@ -249,28 +243,6 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
         }
 
     }
-    
-    /*
-    cout << endl << "INDEX after third" << endl;
-    for(auto row: index)
-    {
-        for(auto pair: row)
-        {
-            cout << pair[0] << " " << pair[1] << ";";
-        }
-        cout << endl;
-    } 
-
-    cout << "MAIN after third" << endl;
-    for(auto row: main)
-    {
-        for(auto pair: row)
-        {
-            cout << pair[0] << " " << pair[1] << ";";
-        }
-        cout << endl;
-    } 
-    */
 
 
     //Transform main
@@ -282,20 +254,7 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
             main[row][col][0] = main[row][col][0] + (index[row][col][0] - 1)*n; // replace with modulo
             main[row][col][1] = main[row][col][1] + (index[row][col][1] - 1)*n; // replace with modulo
         }
-    }
-    
-
-    /*cout <<  endl << "MAIN TRANSFORMED" << endl;
-    for(auto row: main)
-    {
-        for(auto pair: row)
-        {
-            cout << pair[0] << " " << pair[1] << ";";
-        }
-        cout << endl;
-    }
-    */
-    
+    }  
 
     return main;
     

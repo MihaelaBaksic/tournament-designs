@@ -36,7 +36,7 @@ int modulo_solver(int m, int function_value, std::function<int(int)> func)
 
 
 
-std::vector<std::vector<int>> get_coset(std::vector<std::vector<int>> &pairs, int n, int t) // try better than O(n^2) -- mozda t = modulo / nzd(modulo, i)
+std::vector<std::vector<int>> get_coset(std::vector<std::vector<int>> &pairs, int n, int t) 
 {
 
     int start_index = 0;
@@ -57,7 +57,7 @@ std::vector<std::vector<int>> get_coset(std::vector<std::vector<int>> &pairs, in
             // find find_elem among first members of pairs, add index in coset_indices
             for(int i=0; i< n; i++)
             {
-                if(pairs[i][0] == find_elem) // vidi sta je ovo i sredi
+                if(pairs[i][0] == find_elem)
                 {
                     coset_indices.push_back(i);
                     idx_included.insert(i);
@@ -77,19 +77,6 @@ std::vector<std::vector<int>> get_coset(std::vector<std::vector<int>> &pairs, in
             }
         }
     }
-    
-    /* 
-    for( auto c: cosets)
-    {
-        for(auto idx: c)
-        {
-            std::cout << pairs[idx][0] << " " << pairs[idx][1] << ";";
-        }
-        std::cout << std::endl;
-    }
-    
-    std::cout << std::endl << std::endl;
-    */
     
     return cosets;
 }
