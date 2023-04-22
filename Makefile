@@ -4,15 +4,19 @@ CC_FLAGS= -std=c++17 -g -O3
 
 SRC = src
 BUILD = bin
+TEST = test
+BUILD_TEST = $(BUILD)/$(TEST)
+OBJ_TEST = $(BUILD_TEST)/objects
 OBJ = $(BUILD)/objects
 MKDIR_P = mkdir -p
 
-ALL_OBJECTS = $(OBJ)/main.o $(OBJ)/io.o $(OBJ)/utils.o $(OBJ)/TD.o $(OBJ)/BTD.o $(OBJ)/latin_square.o 
+ALL_OBJECTS = $(OBJ)/io.o $(OBJ)/utils.o $(OBJ)/TD.o $(OBJ)/BTD.o $(OBJ)/latin_square.o 
+TEST_OBJECTS = $(OBJ_TEST)/test.o $(OBJ_TEST)/BTD_test.o
 
 # define build directories
 .PHONY: DIRECTORIES
-all: DIRECTORIES $(BUILD)/prog
-DIRECTORIES: $(BUILD) $(OBJ)
+all: DIRECTORIES $(BUILD)/prog $(BUILD_TEST)/test 
+DIRECTORIES: $(BUILD) $(OBJ) $(BUILD_TEST) $(OBJ_TEST)
 
 # make directories for object and executable files
 $(BUILD):
@@ -21,11 +25,21 @@ $(BUILD):
 $(OBJ):
 	$(MKDIR_P) $(OBJ)
 
+$(BUILD_TEST):
+	$(MKDIR_P) $(BUILD_TEST)
+
+$(OBJ_TEST): 
+	$(MKDIR_P) $(OBJ_TEST)
 
 
-# link object files
-$(BUILD)/prog: $(ALL_OBJECTS) 
-	$(CC) -o $(BUILD)/prog $(ALL_OBJECTS) $(CC_FLAGS)  
+# link program object files
+$(BUILD)/prog: $(ALL_OBJECTS) $(OBJ)/main.o
+	$(CC) -o $(BUILD)/prog $(ALL_OBJECTS) $(OBJ)/main.o $(CC_FLAGS)  
+
+
+# link test object files
+$(BUILD_TEST)/test: $(TEST_OBJECTS) $(ALL_OBJECTS) 
+	$(CC) -o $(BUILD_TEST)/test $(ALL_OBJECTS) $(TEST_OBJECTS) $(CC_FLAGS)  
 
 
 
@@ -55,7 +69,25 @@ $(OBJ)/latin_square.o: $(SRC)/designs/latin_square.h $(SRC)/designs/latin_square
 
 
 
+# compile test source files
+
+$(OBJ_TEST)/BTD_test.o : $(TEST)/BTD_test.cpp
+	$(CC) -c $(TEST)/BTD_test.cpp -o $(OBJ_TEST)/BTD_test.o $(CC_FLAGS)
+
+$(OBJ_TEST)/test.o : $(TEST)/test.cpp
+	$(CC) -c $(TEST)/test.cpp -o $(OBJ_TEST)/test.o $(CC_FLAGS)
+
+
+
 # clear build directory
 clear:
 	rm -r $(BUILD)
+
+
+t: DIRECTORIES $(BUILD_TEST)/test
+
+
+
+
+
 
