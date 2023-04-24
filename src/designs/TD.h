@@ -12,7 +12,6 @@ namespace design {
 
         public:
             TournamentDesign(int n);
-            //~TournamentDesign();
 
             virtual bool validate_design() = 0;
 

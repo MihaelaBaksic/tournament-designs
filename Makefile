@@ -11,7 +11,7 @@ OBJ_TEST = $(BUILD_TEST)/objects
 OBJ = $(BUILD)/objects
 MKDIR_P = mkdir -p
 
-ALL_OBJECTS = $(OBJ)/io.o $(OBJ)/utils.o $(OBJ)/TD.o $(OBJ)/BTD.o $(OBJ)/latin_square.o 
+ALL_OBJECTS = $(OBJ)/io.o $(OBJ)/utils.o $(OBJ)/TD.o $(OBJ)/BTD.o $(OBJ)/latin_square.o  $(OBJ)/BipartiteTD.o $(OBJ)/CarryOverBipartiteTD.o
 TEST_OBJECTS = $(OBJ_TEST)/BTD_test.o
 
 # define build directories
@@ -67,6 +67,13 @@ $(OBJ)/BTD.o: $(SRC)/designs/BTD.h $(SRC)/designs/BTD.cpp
 
 $(OBJ)/latin_square.o: $(SRC)/designs/latin_square.h $(SRC)/designs/latin_square.cpp
 	$(CC) -c $(SRC)/designs/latin_square.cpp -o $(OBJ)/latin_square.o $(CC_FLAGS)
+
+
+$(OBJ)/BipartiteTD.o: $(SRC)/designs/BipartiteTD.h $(SRC)/designs/BipartiteTD.cpp
+	$(CC) -c $(SRC)/designs/BipartiteTD.cpp -o $(OBJ)/BipartiteTD.o $(CC_FLAGS)
+
+$(OBJ)/CarryOverBipartiteTD.o: $(SRC)/designs/CarryOverBipartiteTD.h $(SRC)/designs/CarryOverBipartiteTD.cpp
+	$(CC) -c $(SRC)/designs/CarryOverBipartiteTD.cpp -o $(OBJ)/CarryOverBipartiteTD.o $(CC_FLAGS)
 
 
 
