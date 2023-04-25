@@ -17,6 +17,8 @@ design::COBipartiteTournamentDesign::COBipartiteTournamentDesign(int n, std::str
 
     this->latin_square = this->construct_latin_square(n);
 
+    this->design = this->construct_design(n);
+
 }
 
 
@@ -24,7 +26,7 @@ design::COBipartiteTournamentDesign::COBipartiteTournamentDesign(int n, std::str
 std::vector<std::vector<int>> design::COBipartiteTournamentDesign::construct_latin_square(int n)
 {
 
-    std::vector<std::vector<int>> design_LS = std::vector<std::vector<int>>(n, std::vector<int>(n, 0));
+    std::vector<std::vector<int>> latin_square = std::vector<std::vector<int>>(n, std::vector<int>(n, 0));
 
     int m = n/2;
 
@@ -33,20 +35,20 @@ std::vector<std::vector<int>> design::COBipartiteTournamentDesign::construct_lat
     int upper = n;
     int lower = 2;
 
-    design_LS[i][j] = 1;
+    latin_square[i][j] = 1;
 
     for(int cnt=1; cnt<n; cnt++)
     {
         if(cnt % 2 == 1)
         {
-            design_LS[i][cnt] = lower;
-            design_LS[cnt][j] = lower;
+            latin_square[i][cnt] = lower % n;
+            latin_square[cnt][j] = lower % n;
             lower++;
         }
         else
         {
-            design_LS[i][cnt] = upper;
-            design_LS[cnt][j] = upper;
+            latin_square[i][cnt] = upper % n;
+            latin_square[cnt][j] = upper % n;
             upper--;
         }
     }
@@ -56,21 +58,40 @@ std::vector<std::vector<int>> design::COBipartiteTournamentDesign::construct_lat
     {
         for(j=1; j<n; j++)
         {
-            design_LS[i][j] = ( design_LS[i][0] + design_LS[0][j] - 1 + n ) % n;
+            latin_square[i][j] = ( latin_square[i][0] + latin_square[0][j] - 1 + n ) % n;
         }
     }
 
-    return design_LS;
+
+    return latin_square;
 }
 
 
 std::vector<std::vector<std::vector<int>>> design::COBipartiteTournamentDesign::construct_design(int n)
 {
-    return std::vector<std::vector<std::vector<int>>>(); 
+    return this->latin_square_to_design(); 
 }
 
 
 bool design::COBipartiteTournamentDesign::validate_design()
 {
-    return false;
+    //validate latin square to be complete
+
+    std::vector<std::vector<int>> pairs(n, std::vector<int>(n, 0));
+
+    for(int i=0; i<this->n; i++)
+    {
+        for(int j=0; j< this->n -1; j++)
+        {
+            int first = this->latin_square[i][j];
+            int second = this->latin_square[i][j+1];
+
+            if(pairs[first][second] == 1)
+                return false;
+
+            pairs[first][second] = 1;
+        }
+    }
+
+    return true;
 }

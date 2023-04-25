@@ -38,10 +38,14 @@ int main(int argc, char** argv)
     }
 
     */
-   int n = io_manip::assert_input_parameters(argc, argv);
+   int n =  io_manip::assert_input_parameters(argc, argv);
 
    std::unique_ptr<design::TournamentDesign> d = std::unique_ptr<design::TournamentDesign>(new design::COBipartiteTournamentDesign(n));
 
+    std::cout << d->validate_design() << std::endl;
+
+    cout << d->to_string() << endl;
+    
     /*
 
     cout << "Parameter " << n << endl;
