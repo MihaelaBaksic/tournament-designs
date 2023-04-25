@@ -5,6 +5,7 @@
 #include "utils/utils.h"
 #include "designs/TD.h"
 #include "designs/BTD.h"
+#include "designs/CarryOverBipartiteTD.h"
 #include <chrono>
 
 using namespace std;
@@ -12,7 +13,7 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    cout << "parameter,construction_time,validation_time,total_time" << endl;
+    /* cout << "parameter,construction_time,validation_time,total_time" << endl;
     
     for(int i=2351; i<=3877; i+=2)
     {
@@ -36,7 +37,10 @@ int main(int argc, char** argv)
     
     }
 
-   
+    */
+   int n = io_manip::assert_input_parameters(argc, argv);
+
+   std::unique_ptr<design::TournamentDesign> d = std::unique_ptr<design::TournamentDesign>(new design::COBipartiteTournamentDesign(n));
 
     /*
 

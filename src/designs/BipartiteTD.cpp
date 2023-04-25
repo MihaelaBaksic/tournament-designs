@@ -9,6 +9,7 @@ design::BipartiteTournamentDesign::BipartiteTournamentDesign(int n): TournamentD
 design::BipartiteTournamentDesign::BipartiteTournamentDesign(int n, std::string filename): TournamentDesign(n)
 {
     this->n_rounds = n; // Bipartite tournaments have n rounds
+    this->design = this->read_design(n, filename);
 
 }
 

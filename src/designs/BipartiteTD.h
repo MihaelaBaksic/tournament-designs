@@ -8,13 +8,17 @@ namespace design
     class BipartiteTournamentDesign : public TournamentDesign
     {
         public:
+
             BipartiteTournamentDesign(int n);
             BipartiteTournamentDesign(int n, std::string filename);
 
             virtual bool validate_design();
 
-        private:
+        protected:
+
             virtual std::vector<std::vector<std::vector<int>>> construct_design(int n);
+            
+            std::vector<std::vector<int>> latin_square;
 
     };
 }
