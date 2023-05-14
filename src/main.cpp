@@ -57,7 +57,12 @@ int main(int argc, char** argv)
     */
 
    int n = 4; //io_manip::assert_input_parameters(argc, argv);
-   std::unique_ptr<design::LatinSquare> ls = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, "ls4"));
+   /*std::unique_ptr<design::LatinSquare> ls = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, "ls4"));
    std::cout << ls->to_string() << std::endl;
+   */
+
+    std::unique_ptr<design::COBipartiteTournamentDesign> d = std::unique_ptr<design::COBipartiteTournamentDesign>(new design::COBipartiteTournamentDesign(n));
+
+    std::cout << d->to_string() << std::endl;
     
 }

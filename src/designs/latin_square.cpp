@@ -15,16 +15,50 @@
 
 
 
-design::LatinSquare::LatinSquare(int n)
+design::LatinSquare::LatinSquare(int n, bool complete = false)
 {
     assert(n >= 1);
     this->n = n;
+
     this->latin_square = std::vector<std::vector<int>>(n, std::vector<int>(n, -1));
 
-    for(int row=0; row < n; row++)
-        for(int column = 0; column < n; column++)
-            this->latin_square[row][column] = (row + column) % n;
+    if(!complete)
+    {
+        for(int row=0; row < n; row++)
+            for(int column = 0; column < n; column++)
+                this->latin_square[row][column] = (row + column) % n;
+    }
+    else
+    {
+        int m = n/2;
 
+        int i=0;
+        int j=0;
+        int upper = n;
+        int lower = 2;
+
+        latin_square[i][j] = 1;
+
+        for(int cnt=1; cnt<n; cnt++)
+        {
+            this->latin_square[i][cnt] = (cnt%2 == 1 ? lower : upper) % n;
+            this->latin_square[cnt][j] = (cnt%2 == 1 ? lower : upper) % n;
+            lower += cnt % 2 == 1 ? 1 : 0;
+            upper -= cnt % 2 == 1 ? 0 : 1;
+        }
+        
+        for(i=1; i<n; i++)
+            for(j=1; j<n; j++)
+                this->latin_square[i][j] = ( this->latin_square[i][0] + this->latin_square[0][j] - 1 + n ) % n;
+
+    }
+
+}
+
+design::LatinSquare::LatinSquare(int n, std::vector<std::vector<int>> ls)
+{
+    this->n = n;
+    this->latin_square = ls;
 }
 
 design::LatinSquare::LatinSquare(int n, std::string filename)
