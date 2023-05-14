@@ -7,6 +7,13 @@ design::COBipartiteTournamentDesign::COBipartiteTournamentDesign(int n): Biparti
     this->latin_square = this->construct_latin_square(n);
     this->design = this->construct_design(n);
 
+    for(auto row : this->latin_square)
+    {
+        for(auto elem : row)
+            std::cout << elem << " ";
+        std::cout << std::endl;
+    }
+
 }
 
 
@@ -89,16 +96,6 @@ std::vector<std::vector<int>> design::COBipartiteTournamentDesign::design_to_lat
             latin_square[x][y] = i;
             latin_square[y][x] = i;
         }
-    
-
-
-    for(auto row : latin_square)
-    {
-        for(auto elem : row)
-            std::cout << elem << " ";
-        std::cout << std::endl;
-    }
-
 
     return latin_square;
 }

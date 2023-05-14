@@ -6,6 +6,7 @@
 #include "designs/TD.h"
 #include "designs/BTD.h"
 #include "designs/CarryOverBipartiteTD.h"
+#include "designs/latin_square.h"
 #include <chrono>
 
 using namespace std;
@@ -37,15 +38,15 @@ int main(int argc, char** argv)
     
     }
 
-    */
-    int n = io_manip::assert_input_parameters(argc, argv);
+    
+    int n = 6; //io_manip::assert_input_parameters(argc, argv);
 
     std::unique_ptr<design::TournamentDesign> d = std::unique_ptr<design::TournamentDesign>(new design::COBipartiteTournamentDesign(n));
 
     std::cout << d->validate_design() << std::endl;
 
     cout << d->to_string() << endl;
-    
+    */
     /*
 
     cout << "Parameter " << n << endl;
@@ -54,5 +55,9 @@ int main(int argc, char** argv)
     cout << "Total time: " <<  chrono::duration_cast<chrono::microseconds>(end_validation - start_design).count() / 1000000. << endl;
 
     */
+
+   int n = 4; //io_manip::assert_input_parameters(argc, argv);
+   std::unique_ptr<design::LatinSquare> ls = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n));
+   std::cout << ls->to_string() << std::endl;
     
 }
