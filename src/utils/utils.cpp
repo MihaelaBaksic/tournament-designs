@@ -3,6 +3,9 @@
 #include <iostream>
 #include <algorithm>
 #include <set>
+#include <cmath>
+#include <cstring>
+#include<bits/stdc++.h>
 
 
 int modulo_period(int m, int left, int right) // maybe can be implemented differently
@@ -79,4 +82,67 @@ std::vector<std::vector<int>> get_coset(std::vector<std::vector<int>> &pairs, in
     }
     
     return cosets;
+}
+
+
+int int_pow(int x, unsigned int p)
+{
+  if (p == 0) return 1;
+  if (p == 1) return x;
+  
+  int tmp = int_pow(x, p/2);
+  if (p%2 == 0) return tmp * tmp;
+  else return x * tmp * tmp;
+}
+
+
+ 
+std::vector<int> get_prime_powers(int q)
+{
+    int s[q+1];
+    std::vector<bool> prime(q+1, false);
+
+    std::vector<int> prime_powers;
+
+    for (int i=2; i<=q; i+=2)
+        s[i] = 2;
+ 
+    for (int i=3; i<=q; i+=2)
+    {
+        if (prime[i] == false)
+        {
+            s[i] = i;
+ 
+            for (int j=i; j*i<=q; j+=2)
+            {
+                if (prime[i*j] == false)
+                {
+                    prime[i*j] = true;
+
+                    s[i*j] = i;
+                }
+            }
+        }
+    }
+  
+    int curr = s[q];
+    int cnt = 1; 
+ 
+    while (q > 1)
+    {
+        q /= s[q];
+ 
+        if (curr == s[q])
+        {
+            cnt++;
+            continue;
+        }
+ 
+        prime_powers.push_back(int_pow(curr, cnt));
+ 
+        curr = s[q];
+        cnt = 1;
+    }
+
+    return prime_powers;
 }

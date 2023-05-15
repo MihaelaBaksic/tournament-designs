@@ -13,5 +13,12 @@ std::vector<std::vector<int>> get_coset(std::vector<std::vector<int>> &pairs, in
 
 int modulo_period_gcd(int m, int i);
 
+std::vector<int> prime_powers(int n);
+
+int int_pow(int x, unsigned int p);
+
+std::vector<int> get_prime_powers(int N);
+
+
 
 #endif // !H_UTILS

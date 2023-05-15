@@ -1,10 +1,8 @@
-#include "latin_square.h"
 #include <assert.h>
 #include <string>
 #include <set>
 #include <iostream>
 #include <fstream>
-
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
@@ -13,6 +11,8 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/join.hpp>
 #include <boost/range/adaptor/transformed.hpp>
+#include "latin_square.h"
+#include "../utils/utils.h"
 
 
 
