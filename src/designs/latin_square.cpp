@@ -1,6 +1,7 @@
 #include "latin_square.h"
 #include <assert.h>
 #include <string>
+#include <set>
 #include <iostream>
 #include <fstream>
 
@@ -15,7 +16,7 @@
 
 
 
-design::LatinSquare::LatinSquare(int n, bool complete = false)
+design::LatinSquare::LatinSquare(int n, bool complete)
 {
     assert(n >= 1);
     this->n = n;
@@ -115,4 +116,62 @@ std::vector<std::vector<int>> design::LatinSquare::read_latin_square(int n, std:
     }
 
     return latin_square;
+}
+
+
+
+bool design::LatinSquare::validate_latin_square(bool complete)
+{
+    if(!complete)
+    {
+        for(int i=0; i<this->n; i++)
+        {
+            // every element must be contained in the row once
+            std::set<int> row = std::set<int>(this->latin_square[i].begin(), this->latin_square[i].end());
+            if(row.size() != this->n)
+                return false;
+
+            if(*row.begin() != 0)
+                return false;
+
+            if(*row.rbegin() != this->n - 1)
+                return false;
+
+            std::set<int> column = std::set<int>();
+            for(int j=0; j<this->n; j++)
+                column.insert(this->latin_square[j][i]);
+
+            if(column.size() != this->n)
+                return false;
+
+            if(*column.begin() != 0)
+                return false;
+
+            if(*column.rbegin() != this->n - 1)
+                return false; 
+        }
+    }
+    else
+    {
+
+    }
+
+    return true;
+}
+
+
+design::LatinSquare::LatinSquare(int n, int k)
+{
+    assert( k >= 1 && k<= n - 1);
+    this->n = n;
+    std::vector<int> gf = std::vector<int>(n, 0);
+    this->latin_square = std::vector<std::vector<int>>(n, std::vector<int>(n, 0));
+
+    for(int i=0; i< n-1; i++)
+        gf[i] = i+1;
+    
+    for(int i=0; i<n; i++)
+        for(int j=0; j<n; j++)
+            this->latin_square[i][j] = (gf[i]*gf[k-1] + gf[j]) % n;
+
 }

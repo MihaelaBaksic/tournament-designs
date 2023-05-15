@@ -10,7 +10,7 @@ namespace design{
 
         public:
 
-            LatinSquare(int n, bool complete); // constructs basic Latin square via shifting
+            LatinSquare(int n, bool complete = false); // constructs basic Latin square via shifting
             LatinSquare(int n, std::string filename);
             LatinSquare(int n, std::vector<std::vector<int>> ls);
             LatinSquare(int n, int k); // used only if n is a prime power
@@ -18,7 +18,7 @@ namespace design{
 
             int n;
 
-            bool validate_latin_square();
+            bool validate_latin_square(bool complete = false);
             std::string to_string();
 
             std::vector<std::vector<int>> latin_square;
