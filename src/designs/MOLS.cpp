@@ -1,38 +1,87 @@
 #include "MOLS.h"
 #include <list>
-#include <vector>
+#include <assert.h>
 
 design::PairMOLS::PairMOLS(int n)
 {
-    assert(n > 2 && n != 6)
+    //assert(n > 2 && n != 6);
 
     // deconstruct n to prime powers (this is an ordered list)
     std::vector<int> prime_powers = get_prime_powers(n);
 
-    std::list<design::LatinSquare> latin_squares;
+    std::vector<design::LatinSquare> latin_squares;
     for(int pp : prime_powers)
     {
-        LatinSquare ls = new LatinSquare(pp, k=1);
-        latin_squares.push_back(ls)
+        LatinSquare ls(pp, 1);
+        latin_squares.push_back(ls);
     }
 
-    design::LatinSquare last_ls = new LatinSquare(prime_powers[-1], k=2);
+    design::LatinSquare last_ls(prime_powers[prime_powers.size()-1], 2);
 
-    this->pair = std::make_pair<design::LatinSquare, design::LatinSquare>(latin_squares[0], last_ls);
+    this->ls1 = new LatinSquare(prime_powers[0], latin_squares[0].latin_square);
+    this->ls2 = new LatinSquare(last_ls.n, last_ls.latin_square);
+
+    this->join = create_join();
 
 }
 
 
-std::vector<std::vector<std::vector<int>>>> combine_latin_squares(design::LatinSquare ls1, design::LatinSquare ls2)
+std::vector<std::vector<int>> product(design::LatinSquare &A, design::LatinSquare &B)
 {
-    // TODO
-    return nullptr;
+    int m = A.n;
+    int n = B.n;
+
+    // initialise latin square array with the value n
+    std::vector<std::vector<int>> ls = std::vector<std::vector<int>>(m*n, std::vector<int>(n*m, n));
+    
+    // set a_ij values
+    for(int i=0; i<m*n; i++)
+    {
+        for(int j=0; j<m*n; j++)
+        {
+            int a_i = i / n;
+            int a_j = j / n;
+
+            ls[i][j] *= A.latin_square[a_i][a_j];
+
+            int b_i = i % n;
+            int b_j = j % n;
+
+            ls[i][j] += B.latin_square[b_i][b_j];
+        }
+    }
+    return ls;
 }
 
 
 
-std::vector<std::vector<std::vector<int>>>> design::PairMOLS::get_join()
+std::vector<std::vector<std::vector<int>>> design::PairMOLS::create_join()
 {
-    // TODO
-    return nullptr;
+    int n = this->ls1->n;
+    auto join = std::vector<std::vector<std::vector<int>>>(n, std::vector<std::vector<int>>(n, std::vector<int>(2,0)));
+
+    for(int i=0; i<n; i++)
+    {
+        for(int j=0; j<n; j++)
+        {
+            join[i][j][0] = this->ls1->latin_square[i][j];
+            join[i][j][1] = this->ls2->latin_square[i][j];
+        }
+    }
+
+    return join;
+}
+
+std::vector<std::vector<std::vector<int>>> design::PairMOLS::get_join()
+{
+    return this->join;
+}
+
+std::string design::PairMOLS::to_string()
+{
+    std::string ls1 = this->ls1->to_string();
+    std::string ls2 = this->ls2->to_string();
+
+    return ls1 + "\n\n" + ls2; 
+
 }

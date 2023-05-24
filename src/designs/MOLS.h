@@ -1,5 +1,9 @@
 #include "latin_square.h"
-
+#include <vector>
+#include <tuple>
+#include <utility>
+#include <memory>
+#include "../utils/utils.h"
 
 #ifndef H_MOLS
 #define H_MOLS
@@ -12,15 +16,23 @@ namespace design
 
         public:
             PairMOLS(int n);
-            std::vector<std::vector<std::vector<int>>>> get_join();
+            
+            std::vector<std::vector<std::vector<int>>> get_join();
+
+            std::string to_string();
 
         private:
-            std::pair<design::LatinSquare, design::LatinSquare> pair;
+            LatinSquare* ls1;
+            LatinSquare* ls2;
+            std::vector<std::vector<std::vector<int>>> join;
 
-            std::vector<std::vector<std::vector<int>>>> combine_latin_squares(design::LatinSquare ls1, design::LatinSquare ls2);
+            std::vector<std::vector<std::vector<int>>> create_join();
+            std::vector<std::vector<int>> product(design::LatinSquare &A, design::LatinSquare &B);
 
-    }
+    };
 }
 
 
-#endif H_MOLS
+
+
+#endif 

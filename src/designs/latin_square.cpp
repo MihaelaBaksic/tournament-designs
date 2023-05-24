@@ -14,7 +14,7 @@
 #include "latin_square.h"
 #include "../utils/utils.h"
 
-
+design::LatinSquare::LatinSquare() {}
 
 design::LatinSquare::LatinSquare(int n, bool complete)
 {
@@ -153,7 +153,7 @@ bool design::LatinSquare::validate_latin_square(bool complete)
     }
     else
     {
-
+        // TODO
     }
 
     return true;

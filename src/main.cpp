@@ -7,6 +7,7 @@
 #include "designs/BTD.h"
 #include "designs/CarryOverBipartiteTD.h"
 #include "designs/latin_square.h"
+#include "designs/MOLS.h"
 #include <chrono>
 
 using namespace std;
@@ -56,7 +57,7 @@ int main(int argc, char** argv)
 
     */
 
-   int n = 15 ; //io_manip::assert_input_parameters(argc, argv);
+   int n = 8 ; //io_manip::assert_input_parameters(argc, argv);
    /*std::unique_ptr<design::LatinSquare> ls = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, 1));
    std::cout << ls->to_string() << std::endl;
    std::cout << ls->validate_latin_square() << std::endl;
@@ -67,6 +68,15 @@ int main(int argc, char** argv)
     std::cout << d->to_string() << std::endl;
     */
 
+    std::unique_ptr<design::PairMOLS> mols = std::unique_ptr<design::PairMOLS>(new design::PairMOLS(n));
+
+    int i=0;
+    for(i=0; i<10; i++)
+    {
+        i++;
+    }
+    std::cout << i << std::endl;
+    std::cout << mols->to_string() << std::endl;
 
     
 }

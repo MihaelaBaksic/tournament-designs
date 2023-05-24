@@ -14,7 +14,7 @@ namespace design{
             LatinSquare(int n, std::string filename);
             LatinSquare(int n, std::vector<std::vector<int>> ls);
             LatinSquare(int n, int k); // used only if n is a prime power
-            LatinSquare(LatinSquare& ls_1, LatinSquare& ls_2); // use to construct MOLS
+            LatinSquare(); // use to construct pairs
 
             int n;
 
