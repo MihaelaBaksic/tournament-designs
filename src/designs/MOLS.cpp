@@ -1,6 +1,7 @@
 #include "MOLS.h"
 #include <list>
 #include <assert.h>
+#include <iostream>
 
 design::PairMOLS::PairMOLS(int n)
 {
@@ -23,6 +24,12 @@ design::PairMOLS::PairMOLS(int n)
 
     this->join = create_join();
 
+}
+
+design::PairMOLS::~PairMOLS()
+{
+    free(this->ls1);
+    free(this->ls2);
 }
 
 
@@ -84,4 +91,31 @@ std::string design::PairMOLS::to_string()
 
     return ls1 + "\n\n" + ls2; 
 
+}
+
+
+
+bool design::PairMOLS::validate_mols()
+{
+
+    if(this->ls1->n != this->ls2->n)
+        return false;
+
+    int n = this->ls1->n;
+
+    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
+
+    std::cout << "SIZE : " << sizeof(check) << std::endl;
+
+    for(auto row : join)
+    {
+        for(auto pair : row)
+        {
+            if(check[pair[0]][pair[1]])
+                return false;
+
+            check[pair[0]][pair[1]] = true;
+        }
+    }
+    return true;
 }

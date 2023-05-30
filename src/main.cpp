@@ -78,5 +78,7 @@ int main(int argc, char** argv)
     std::cout << i << std::endl;
     std::cout << mols->to_string() << std::endl;
 
+    std::cout << mols->validate_mols() << std::endl;
+
     
 }

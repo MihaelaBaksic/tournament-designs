@@ -16,10 +16,13 @@ namespace design
 
         public:
             PairMOLS(int n);
+            ~PairMOLS();
             
             std::vector<std::vector<std::vector<int>>> get_join();
 
             std::string to_string();
+
+            bool validate_mols();
 
         private:
             LatinSquare* ls1;
