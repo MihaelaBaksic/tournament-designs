@@ -12,6 +12,20 @@ design::PairMOLS::PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare*
     this->join = this->create_join();
 }
 
+design::PairMOLS::PairMOLS(int range_1_lower, int range_1_upper, int range_2_lower, int range_2_upper)
+{
+    int n1 = range_1_upper - range_1_lower;
+    int n2 = range_2_upper - range_2_lower;
+
+    assert(n1 > 0 && n2 > 0 && n1==n2);
+
+    this->ls1 = new LatinSquare(range_1_lower, range_1_upper, false);
+    this->ls2 = new LatinSquare(range_2_lower, range_2_upper, false);
+
+    this->join = this->create_join();
+}
+
+
 design::PairMOLS::PairMOLS(int n)
 {
     //assert(n > 2 && n != 6);
@@ -127,11 +141,16 @@ bool design::PairMOLS::validate_mols()
 
     int n = this->ls1->n;
 
-    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
+    // get maximum value for check array initialization
+    int max_value_1 = *std::max_element(this->ls1->latin_square[0].begin(), this->ls1->latin_square[0].end());
+    int max_value_2 = *std::max_element(this->ls2->latin_square[0].begin(), this->ls2->latin_square[0].end());
+    int max = max_value_1 > max_value_2 ? max_value_1 : max_value_2;
 
-    for(int i= 0; i<this->ls1->n; i++)
+    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(max+1, std::vector<bool>(max+1, false));
+
+    for(int i= 0; i<n; i++)
     {
-        for(int j=0; j<this->ls1->n; j++)
+        for(int j=0; j<n; j++)
         {
             auto pair = this->join[i][j];
             if(check[pair[0]][pair[1]])
@@ -144,4 +163,25 @@ bool design::PairMOLS::validate_mols()
         }
     }
     return true;
+}
+
+bool design::PairMOLS::has_equal_values()
+{
+        if(this->ls1->n != this->ls2->n)
+        return false;
+
+    int n = this->ls1->n;
+
+    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
+
+    for(int i= 0; i<this->ls1->n; i++)
+    {
+        for(int j=0; j<this->ls1->n; j++)
+        {
+            auto pair = this->join[i][j];
+            if(pair[0] == pair[1])
+                return true;
+        }
+    }
+    return false;
 }

@@ -84,7 +84,7 @@ int main(int argc, char** argv)
 
     */
 
-   int n = 3*5*8*9; //io_manip::assert_input_parameters(argc, argv);
+   //int n = 3*5; //io_manip::assert_input_parameters(argc, argv);
    /*std::unique_ptr<design::LatinSquare> ls = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, 1));
    std::cout << ls->to_string() << std::endl;
    std::cout << ls->validate_latin_square() << std::endl;
@@ -95,13 +95,16 @@ int main(int argc, char** argv)
     std::cout << d->to_string() << std::endl;
     */
 
-    
+    /*    
     std::unique_ptr<design::PairMOLS> mols = std::unique_ptr<design::PairMOLS>(new design::PairMOLS(n));
 
-   // std::cout << mols->to_string() << std::endl;
+    std::cout << mols->to_string() << std::endl;
 
     std::cout << mols->validate_mols() << std::endl;
-    
+
+    std::cout << mols->has_equal_values() << std::endl;
+
+    */
     
     /*int n1=4;
     int n2=5;
@@ -145,6 +148,11 @@ int main(int argc, char** argv)
     std::cout << "Orthogonal? " << validate_mols(product_11, product_22) << std::endl;
 
     */
+
+    design::PairMOLS p(0, 10, 10, 20);
+
+    std::cout << p.to_string() << std::endl;
+    std::cout << p.validate_mols() << std::endl;
 
     
 

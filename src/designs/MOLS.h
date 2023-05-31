@@ -16,6 +16,7 @@ namespace design
 
         public:
             PairMOLS(int n);
+            PairMOLS(int range_1_lower, int range_1_upper, int range_2_lower, int range_2_upper);
             PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare* ls2);
             ~PairMOLS();
             
@@ -24,6 +25,7 @@ namespace design
             std::string to_string();
 
             bool validate_mols();
+            bool has_equal_values();
 
             static std::vector<std::vector<int>> product(design::LatinSquare &A, design::LatinSquare &B);
 

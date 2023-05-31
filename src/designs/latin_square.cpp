@@ -18,7 +18,7 @@ design::LatinSquare::LatinSquare() {}
 
 design::LatinSquare::LatinSquare(int n, bool complete)
 {
-    assert(n >= 1);
+    assert(n > 1);
     this->n = n;
 
     this->latin_square = std::vector<std::vector<int>>(n, std::vector<int>(n, -1));
@@ -56,8 +56,18 @@ design::LatinSquare::LatinSquare(int n, bool complete)
 
 }
 
+design::LatinSquare::LatinSquare(int lower_bound, int upper_bound, bool complete) :
+    design::LatinSquare::LatinSquare(upper_bound-lower_bound, complete) 
+{
+    for(int i=0; i < this->n; i++)
+        for(int j=0; j< this->n; j++)
+            this->latin_square[i][j] += lower_bound;
+}
+
+
 design::LatinSquare::LatinSquare(int n, std::vector<std::vector<int>> ls)
 {
+    assert(n > 1);
     this->n = n;
     this->latin_square = ls;
 }
