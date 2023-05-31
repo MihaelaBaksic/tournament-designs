@@ -19,9 +19,17 @@ design::PairMOLS::PairMOLS(int n)
     // deconstruct n to prime powers (this is an ordered list)
     std::vector<int> prime_powers = get_prime_powers(n);
 
+    design::LatinSquare ls1; 
+    design::LatinSquare ls2; 
 
-    design::LatinSquare ls1 = LatinSquare(prime_powers[0], 1);
-    design::LatinSquare ls2 = LatinSquare(prime_powers[0], 2);
+    if(prime_powers[0] == 2)
+    {
+        throw std::invalid_argument( "can't deal with prime power 2" );
+    }
+    else{
+        ls1 = LatinSquare(prime_powers[0], 1);
+        ls2 = LatinSquare(prime_powers[0], 2);
+    }
     
     for(int i=1; i<prime_powers.size(); i++)
     {

@@ -84,7 +84,7 @@ int main(int argc, char** argv)
 
     */
 
-   int n = 3*5*4 ; //io_manip::assert_input_parameters(argc, argv);
+   int n = 3*5*8*9; //io_manip::assert_input_parameters(argc, argv);
    /*std::unique_ptr<design::LatinSquare> ls = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, 1));
    std::cout << ls->to_string() << std::endl;
    std::cout << ls->validate_latin_square() << std::endl;
@@ -98,7 +98,7 @@ int main(int argc, char** argv)
     
     std::unique_ptr<design::PairMOLS> mols = std::unique_ptr<design::PairMOLS>(new design::PairMOLS(n));
 
-    std::cout << mols->to_string() << std::endl;
+   // std::cout << mols->to_string() << std::endl;
 
     std::cout << mols->validate_mols() << std::endl;
     
