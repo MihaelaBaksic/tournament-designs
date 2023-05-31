@@ -27,7 +27,7 @@ namespace design
             bool validate_mols();
             bool has_equal_values();
 
-            static std::vector<std::vector<int>> product(design::LatinSquare &A, design::LatinSquare &B);
+            static std::vector<std::vector<int>> kronecker_product(design::LatinSquare &A, design::LatinSquare &B);
 
 
         private:

@@ -149,7 +149,7 @@ int main(int argc, char** argv)
 
     */
 
-    design::PairMOLS p(0, 10, 10, 20);
+    design::PairMOLS p(15);
 
     std::cout << p.to_string() << std::endl;
     std::cout << p.validate_mols() << std::endl;

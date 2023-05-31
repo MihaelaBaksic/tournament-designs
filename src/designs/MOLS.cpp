@@ -50,8 +50,8 @@ design::PairMOLS::PairMOLS(int n)
         design::LatinSquare ls_other_1(prime_powers[i], 1);
         design::LatinSquare ls_other_2(prime_powers[i], 2);
 
-        auto product_1 = PairMOLS::product(ls1, ls_other_1);
-        auto product_2 = PairMOLS::product(ls2, ls_other_2);
+        auto product_1 = PairMOLS::kronecker_product(ls1, ls_other_1);
+        auto product_2 = PairMOLS::kronecker_product(ls2, ls_other_2);
 
         ls1 = LatinSquare(product_1.size(), product_1);
         ls2 = LatinSquare(product_2.size(), product_2);
@@ -70,7 +70,7 @@ design::PairMOLS::~PairMOLS()
 }
 
 
-std::vector<std::vector<int>> design::PairMOLS::product(design::LatinSquare &A, design::LatinSquare &B)
+std::vector<std::vector<int>> design::PairMOLS::kronecker_product(design::LatinSquare &A, design::LatinSquare &B)
 {
     int m = A.n;
     int n = B.n;
