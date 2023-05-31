@@ -82,7 +82,15 @@
         "mutex": "cpp",
         "scoped_allocator": "cpp",
         "valarray": "cpp",
-        "charconv": "cpp"
+        "charconv": "cpp",
+        "barrier": "cpp",
+        "coroutine": "cpp",
+        "latch": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "source_location": "cpp",
+        "span": "cpp",
+        "syncstream": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

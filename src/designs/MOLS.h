@@ -16,6 +16,7 @@ namespace design
 
         public:
             PairMOLS(int n);
+            PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare* ls2);
             ~PairMOLS();
             
             std::vector<std::vector<std::vector<int>>> get_join();
@@ -24,13 +25,15 @@ namespace design
 
             bool validate_mols();
 
+            static std::vector<std::vector<int>> product(design::LatinSquare &A, design::LatinSquare &B);
+
+
         private:
             LatinSquare* ls1;
             LatinSquare* ls2;
             std::vector<std::vector<std::vector<int>>> join;
 
             std::vector<std::vector<std::vector<int>>> create_join();
-            std::vector<std::vector<int>> product(design::LatinSquare &A, design::LatinSquare &B);
 
     };
 }

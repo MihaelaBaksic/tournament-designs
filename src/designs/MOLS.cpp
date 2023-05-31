@@ -3,6 +3,15 @@
 #include <assert.h>
 #include <iostream>
 
+
+design::PairMOLS::PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare* ls2)
+{
+    this->ls1 = ls1;
+    this->ls2 = ls2;
+
+    this->join = this->create_join();
+}
+
 design::PairMOLS::PairMOLS(int n)
 {
     //assert(n > 2 && n != 6);
@@ -10,20 +19,26 @@ design::PairMOLS::PairMOLS(int n)
     // deconstruct n to prime powers (this is an ordered list)
     std::vector<int> prime_powers = get_prime_powers(n);
 
-    std::vector<design::LatinSquare> latin_squares;
-    for(int pp : prime_powers)
+
+    design::LatinSquare ls1 = LatinSquare(prime_powers[0], 1);
+    design::LatinSquare ls2 = LatinSquare(prime_powers[0], 2);
+    
+    for(int i=1; i<prime_powers.size(); i++)
     {
-        LatinSquare ls(pp, 1);
-        latin_squares.push_back(ls);
+        design::LatinSquare ls_other_1(prime_powers[i], 1);
+        design::LatinSquare ls_other_2(prime_powers[i], 2);
+
+        auto product_1 = PairMOLS::product(ls1, ls_other_1);
+        auto product_2 = PairMOLS::product(ls2, ls_other_2);
+
+        ls1 = LatinSquare(product_1.size(), product_1);
+        ls2 = LatinSquare(product_2.size(), product_2);
     }
 
-    design::LatinSquare last_ls(prime_powers[prime_powers.size()-1], 2);
-
-    this->ls1 = new LatinSquare(prime_powers[0], latin_squares[0].latin_square);
-    this->ls2 = new LatinSquare(last_ls.n, last_ls.latin_square);
-
+    this->ls1 = new LatinSquare(ls1.n, ls1.latin_square);
+    this->ls2 = new LatinSquare(ls2.n, ls2.latin_square);
+        
     this->join = create_join();
-
 }
 
 design::PairMOLS::~PairMOLS()
@@ -33,7 +48,7 @@ design::PairMOLS::~PairMOLS()
 }
 
 
-std::vector<std::vector<int>> product(design::LatinSquare &A, design::LatinSquare &B)
+std::vector<std::vector<int>> design::PairMOLS::product(design::LatinSquare &A, design::LatinSquare &B)
 {
     int m = A.n;
     int n = B.n;
@@ -57,6 +72,7 @@ std::vector<std::vector<int>> product(design::LatinSquare &A, design::LatinSquar
             ls[i][j] += B.latin_square[b_i][b_j];
         }
     }
+    
     return ls;
 }
 
@@ -105,14 +121,16 @@ bool design::PairMOLS::validate_mols()
 
     std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
 
-    std::cout << "SIZE : " << sizeof(check) << std::endl;
-
-    for(auto row : join)
+    for(int i= 0; i<this->ls1->n; i++)
     {
-        for(auto pair : row)
+        for(int j=0; j<this->ls1->n; j++)
         {
+            auto pair = this->join[i][j];
             if(check[pair[0]][pair[1]])
+            {
+                std::cout << "error in row " << i << " column " << j << std::endl;
                 return false;
+            }
 
             check[pair[0]][pair[1]] = true;
         }

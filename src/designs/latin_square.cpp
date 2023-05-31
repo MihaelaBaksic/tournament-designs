@@ -173,5 +173,6 @@ design::LatinSquare::LatinSquare(int n, int k)
     for(int i=0; i<n; i++)
         for(int j=0; j<n; j++)
             this->latin_square[i][j] = (gf[i]*gf[k-1] + gf[j]) % n;
+    
 
 }

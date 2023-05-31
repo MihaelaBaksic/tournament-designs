@@ -13,6 +13,33 @@
 using namespace std;
 
 
+bool validate_mols(design::LatinSquare &ls1, design::LatinSquare & ls2) 
+{
+
+    if(ls1.n != ls2.n)
+        return false;
+
+    int n = ls1.n;
+
+    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
+
+    for(int i= 0; i<n; i++)
+    {
+        for(int j=0; j<n; j++)
+        {
+            if(check[ls1.latin_square[i][j]][ls2.latin_square[i][j]])
+            {
+                std::cout << "error in row " << i << " column " << j << std::endl;
+                return false;
+            }
+
+            check[ls1.latin_square[i][j]][ls2.latin_square[i][j]] = true;
+        }
+    }
+    return true;
+}
+
+
 int main(int argc, char** argv)
 {
     /* cout << "parameter,construction_time,validation_time,total_time" << endl;
@@ -57,7 +84,7 @@ int main(int argc, char** argv)
 
     */
 
-   int n = 8 ; //io_manip::assert_input_parameters(argc, argv);
+   int n = 3*5*4 ; //io_manip::assert_input_parameters(argc, argv);
    /*std::unique_ptr<design::LatinSquare> ls = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, 1));
    std::cout << ls->to_string() << std::endl;
    std::cout << ls->validate_latin_square() << std::endl;
@@ -68,17 +95,58 @@ int main(int argc, char** argv)
     std::cout << d->to_string() << std::endl;
     */
 
+    
     std::unique_ptr<design::PairMOLS> mols = std::unique_ptr<design::PairMOLS>(new design::PairMOLS(n));
 
-    int i=0;
-    for(i=0; i<10; i++)
-    {
-        i++;
-    }
-    std::cout << i << std::endl;
     std::cout << mols->to_string() << std::endl;
 
     std::cout << mols->validate_mols() << std::endl;
+    
+    
+    /*int n1=4;
+    int n2=5;
+    int n3=17;
+    
+    design::LatinSquare ls1(n1, 1);
+    design::LatinSquare ls2(n1, 2);
+    std::cout << ls1.to_string() << std::endl << std::endl;
+    std::cout << ls2.to_string() << std::endl << std::endl;
+
+    std::cout << "Orthogonal? " << validate_mols(ls1, ls2) << std::endl;
+
+    design::LatinSquare ls11(n2, 1);
+    design::LatinSquare ls22(n2, 2);
+    std::cout << ls11.to_string() << std::endl << std::endl;
+    std::cout << ls22.to_string() << std::endl << std::endl;
+
+    std::cout << "Orthogonal? " << validate_mols(ls11, ls22) << std::endl;
+
+    design::LatinSquare ls111(n3, 1);
+    design::LatinSquare ls222(n3, 2);
+    std::cout << ls111.to_string() << std::endl << std::endl;
+    std::cout << ls222.to_string() << std::endl << std::endl;
+
+    std::cout << "Orthogonal? " << validate_mols(ls111, ls222) << std::endl;
+    
+    
+    design::LatinSquare product_1(n1*n2, design::PairMOLS::product(ls11, ls1));
+    design::LatinSquare product_2(n1*n2, design::PairMOLS::product(ls22, ls2));
+
+    std::cout << product_1.to_string() << std::endl << std::endl;
+    std::cout << product_2.to_string() << std::endl << std::endl;
+    std::cout << "Orthogonal? " << validate_mols(product_1, product_2) << std::endl;
+
+
+    design::LatinSquare product_11(n1*n2*n3, design::PairMOLS::product(ls111, product_1));
+    design::LatinSquare product_22(n1*n2*n3, design::PairMOLS::product(ls222, product_2));
+
+    std::cout << product_11.to_string() << std::endl << std::endl;
+    std::cout << product_22.to_string() << std::endl << std::endl;
+    std::cout << "Orthogonal? " << validate_mols(product_11, product_22) << std::endl;
+
+    */
 
     
+
+
 }
