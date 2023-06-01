@@ -154,12 +154,15 @@ int main(int argc, char** argv)
     std::cout << p.to_string() << std::endl;
     std::cout << p.validate_mols() << std::endl;*/
 
+    /*
     design::BipartiteTournamentDesign p(15);
 
     std::cout << p.to_string() << std::endl;
     cout << p.validate_design() << endl;
+    */
 
+    design::LatinSquare ls(10, true);
+
+    cout << ls.validate_latin_square() << endl;
     
-
-
 }

@@ -132,38 +132,49 @@ std::vector<std::vector<int>> design::LatinSquare::read_latin_square(int n, std:
 
 bool design::LatinSquare::validate_latin_square(bool complete)
 {
-    if(!complete)
+
+    for(int i=0; i<this->n; i++)
     {
-        for(int i=0; i<this->n; i++)
-        {
-            // every element must be contained in the row once
-            std::set<int> row = std::set<int>(this->latin_square[i].begin(), this->latin_square[i].end());
-            if(row.size() != this->n)
-                return false;
+        // every element must be contained in the row once
+        std::set<int> row = std::set<int>(this->latin_square[i].begin(), this->latin_square[i].end());
+        if(row.size() != this->n)
+            return false;
 
-            if(*row.begin() != 0)
-                return false;
+        if(*row.begin() != 0)
+            return false;
 
-            if(*row.rbegin() != this->n - 1)
-                return false;
+        if(*row.rbegin() != this->n - 1)
+            return false;
 
-            std::set<int> column = std::set<int>();
-            for(int j=0; j<this->n; j++)
-                column.insert(this->latin_square[j][i]);
+        std::set<int> column = std::set<int>();
+        for(int j=0; j<this->n; j++)
+            column.insert(this->latin_square[j][i]);
 
-            if(column.size() != this->n)
-                return false;
+        if(column.size() != this->n)
+            return false;
 
-            if(*column.begin() != 0)
-                return false;
+        if(*column.begin() != 0)
+            return false;
 
-            if(*column.rbegin() != this->n - 1)
-                return false; 
-        }
+        if(*column.rbegin() != this->n - 1)
+            return false; 
     }
-    else
+    
+    if(complete) // additional checks for completeness of latin squares
     {
-        // TODO
+        std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
+
+        for(int i=0; i< this->n; i++)
+        {
+            for(int j=0; j < this->n-1; j++)
+            {
+                
+                if(check[this->latin_square[i][j]][this->latin_square[i][j+1]])
+                    return false;
+
+                check[this->latin_square[i][j]][this->latin_square[i][j+1]] = true;
+            }
+        }
     }
 
     return true;
