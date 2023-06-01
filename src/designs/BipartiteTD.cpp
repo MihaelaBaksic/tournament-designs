@@ -1,9 +1,12 @@
+#include <iostream>
+
 #include "BipartiteTD.h"
+#include "MOLS.h"
 
 design::BipartiteTournamentDesign::BipartiteTournamentDesign(int n): TournamentDesign(n)
 {
     this->n_rounds = n; // Bipartite tournaments have n rounds
-
+    this->design = this->construct_design(n);
 }
 
 design::BipartiteTournamentDesign::BipartiteTournamentDesign(int n, std::string filename): TournamentDesign(n)
@@ -15,15 +18,32 @@ design::BipartiteTournamentDesign::BipartiteTournamentDesign(int n, std::string 
 
 std::vector<std::vector<std::vector<int>>> design::BipartiteTournamentDesign::construct_design(int n)
 {
-
-    return std::vector<std::vector<std::vector<int>>>();
-    
+    design::PairMOLS p = design::PairMOLS(n);
+    return p.get_join();
 }
 
 
 bool design::BipartiteTournamentDesign::validate_design()
 {
-    return false;
+    int n = this->n;
+
+    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
+
+    for(int i= 0; i<n; i++)
+    {
+        for(int j=0; j<n; j++)
+        {
+            auto pair = this->design[i][j];
+            if(check[pair[0]][pair[1]])
+            {
+                std::cout << "error in row " << i << " column " << j << std::endl;
+                return false;
+            }
+
+            check[pair[0]][pair[1]] = true;
+        }
+    }
+    return true;
 }
 
 

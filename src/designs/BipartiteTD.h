@@ -17,6 +17,7 @@ namespace design
         protected:
             virtual std::vector<std::vector<std::vector<int>>> construct_design(int n);
 
+
     };
 }
 

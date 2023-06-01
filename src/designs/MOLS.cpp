@@ -10,6 +10,10 @@ design::PairMOLS::PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare*
     this->ls2 = ls2;
 
     this->join = this->create_join();
+
+    int max_value_1 = *std::max_element(this->ls1->latin_square[0].begin(), this->ls1->latin_square[0].end());
+    int max_value_2 = *std::max_element(this->ls2->latin_square[0].begin(), this->ls2->latin_square[0].end());
+    this->max_element_value = max_value_1 > max_value_2 ? max_value_1 : max_value_2;
 }
 
 design::PairMOLS::PairMOLS(int range_1_lower, int range_1_upper, int range_2_lower, int range_2_upper)
@@ -23,6 +27,7 @@ design::PairMOLS::PairMOLS(int range_1_lower, int range_1_upper, int range_2_low
     this->ls2 = new LatinSquare(range_2_lower, range_2_upper, false);
 
     this->join = this->create_join();
+    this->max_element_value = range_2_upper > range_1_upper ? range_2_upper : range_1_upper;
 }
 
 
@@ -141,12 +146,8 @@ bool design::PairMOLS::validate_mols()
 
     int n = this->ls1->n;
 
-    // get maximum value for check array initialization
-    int max_value_1 = *std::max_element(this->ls1->latin_square[0].begin(), this->ls1->latin_square[0].end());
-    int max_value_2 = *std::max_element(this->ls2->latin_square[0].begin(), this->ls2->latin_square[0].end());
-    int max = max_value_1 > max_value_2 ? max_value_1 : max_value_2;
-
-    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(max+1, std::vector<bool>(max+1, false));
+    // maximum value for check array initialization
+    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(this->max_element_value+1, std::vector<bool>(this->max_element_value+1, false));
 
     for(int i= 0; i<n; i++)
     {
@@ -184,4 +185,10 @@ bool design::PairMOLS::has_equal_values()
         }
     }
     return false;
+}
+
+
+int design::PairMOLS::get_max_element_value()
+{
+    return this->max_element_value;
 }

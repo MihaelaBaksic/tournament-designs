@@ -24,6 +24,8 @@ namespace design
 
             std::string to_string();
 
+            int get_max_element_value();
+
             bool validate_mols();
             bool has_equal_values();
 
@@ -34,6 +36,8 @@ namespace design
             LatinSquare* ls1;
             LatinSquare* ls2;
             std::vector<std::vector<std::vector<int>>> join;
+
+            int max_element_value;
 
             std::vector<std::vector<std::vector<int>>> create_join();
 
