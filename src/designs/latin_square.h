@@ -20,7 +20,7 @@ namespace design{
             int n;
 
             bool validate_latin_square(bool complete = false);
-            std::string to_string();
+            std::string to_string(std::string delimiter = ";");
 
             std::vector<std::vector<int>> latin_square;
 

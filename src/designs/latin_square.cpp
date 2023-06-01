@@ -80,7 +80,7 @@ design::LatinSquare::LatinSquare(int n, std::string filename)
 }
 
 
-std::string design::LatinSquare::to_string(){
+std::string design::LatinSquare::to_string(std::string delimiter){
 
     std::vector<std::string> rows;
 
@@ -92,7 +92,7 @@ std::string design::LatinSquare::to_string(){
              return std::to_string(i);
         });
 
-        rows.push_back(boost::algorithm::join(string_element, ";"));
+        rows.push_back(boost::algorithm::join(string_element, delimiter));
     }
 
     return boost::algorithm::join(rows, "\n");

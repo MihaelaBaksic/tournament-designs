@@ -271,7 +271,6 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_manual(i
 
     auto i = TournamentDesign::read_design(n, filename);
 
-    cout << "A" << endl;
     return i;
 }   
 

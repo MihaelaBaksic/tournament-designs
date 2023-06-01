@@ -147,22 +147,11 @@ int main(int argc, char** argv)
     std::cout << product_22.to_string() << std::endl << std::endl;
     std::cout << "Orthogonal? " << validate_mols(product_11, product_22) << std::endl;
 
-    */
-
-    /*design::PairMOLS p(15);
-
-    std::cout << p.to_string() << std::endl;
-    std::cout << p.validate_mols() << std::endl;*/
-
-    /*
-    design::BipartiteTournamentDesign p(15);
-
-    std::cout << p.to_string() << std::endl;
-    cout << p.validate_design() << endl;
-    */
-
-    design::LatinSquare ls(10, true);
-
-    cout << ls.validate_latin_square() << endl;
     
+ */
+    design::PairMOLS p(15);
+
+    std::cout << p.to_string() << std::endl;
+    std::cout << p.join_to_string(" & ", " ") << std::endl;
+   
 }

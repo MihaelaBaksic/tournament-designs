@@ -2,6 +2,17 @@
 #include <list>
 #include <assert.h>
 #include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <boost/lexical_cast.hpp>
+#include <boost/tokenizer.hpp>
+#include <set>
+#include <boost/algorithm/string/classification.hpp> // Include boost::for is_any_of
+#include <boost/algorithm/string/split.hpp> // Include for boost::split
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/join.hpp>
+#include <boost/range/adaptor/transformed.hpp>
 
 
 design::PairMOLS::PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare* ls2)
@@ -127,10 +138,10 @@ std::vector<std::vector<std::vector<int>>> design::PairMOLS::get_join()
     return this->join;
 }
 
-std::string design::PairMOLS::to_string()
+std::string design::PairMOLS::to_string(std::string delimiter)
 {
-    std::string ls1 = this->ls1->to_string();
-    std::string ls2 = this->ls2->to_string();
+    std::string ls1 = this->ls1->to_string(delimiter);
+    std::string ls2 = this->ls2->to_string(delimiter);
 
     return ls1 + "\n\n" + ls2; 
 
@@ -191,4 +202,22 @@ bool design::PairMOLS::has_equal_values()
 int design::PairMOLS::get_max_element_value()
 {
     return this->max_element_value;
+}
+
+std::string design::PairMOLS::join_to_string(std::string delimiter_pairs, std::string delimiter_elements)
+{
+    std::vector<std::string> rows;
+
+    for(auto row : this->join)
+    {
+        std::vector<std::string> pair_string;
+
+        std::transform( row.begin(), row.end(), std::back_inserter(pair_string), 
+                            [delimiter_elements](std::vector<int> pair) { 
+                                return boost::algorithm::join( pair | boost::adaptors::transformed( static_cast<std::string(*)(int)>(std::to_string) ), delimiter_elements ); 
+                            } );
+
+        rows.push_back(boost::algorithm::join(pair_string, delimiter_pairs));
+    }
+    return boost::algorithm::join(rows, "\n");
 }

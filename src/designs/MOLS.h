@@ -22,7 +22,9 @@ namespace design
             
             std::vector<std::vector<std::vector<int>>> get_join();
 
-            std::string to_string();
+            std::string to_string(std::string delimiter = ";");
+
+            std::string join_to_string(std::string delimiter_pairs = ";", std::string delimiter_elements = " ");
 
             int get_max_element_value();
 
