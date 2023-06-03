@@ -158,7 +158,7 @@ bool design::PairMOLS::validate_mols()
     int n = this->ls1->n;
 
     // maximum value for check array initialization
-    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(this->max_element_value+1, std::vector<bool>(this->max_element_value+1, false));
+    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
 
     for(int i= 0; i<n; i++)
     {

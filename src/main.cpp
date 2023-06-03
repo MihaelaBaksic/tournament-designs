@@ -42,9 +42,10 @@ bool validate_mols(design::LatinSquare &ls1, design::LatinSquare & ls2)
 
 int main(int argc, char** argv)
 {
-    /* cout << "parameter,construction_time,validation_time,total_time" << endl;
+    /*
+     cout << "parameter,construction_time,validation_time,total_time" << endl;
     
-    for(int i=2351; i<=3877; i+=2)
+    for(int i=5; i<=20; i+=2)
     {
         auto start_design = chrono::high_resolution_clock::now();
 
@@ -65,7 +66,9 @@ int main(int argc, char** argv)
                     << ',' << chrono::duration_cast<chrono::microseconds>(end_validation - start_design).count() / 1000000. << endl;
     
     }
+    */
 
+    /*
     
     int n = 6; //io_manip::assert_input_parameters(argc, argv);
 
@@ -149,9 +152,34 @@ int main(int argc, char** argv)
 
     
  */
-    design::PairMOLS p(15);
+    
+    //cout << "parameter,optimization,construction_time,validation_time,total_time" << endl;
+    
+    for(int i=3; i<2000; i++)
+    {
 
-    std::cout << p.to_string() << std::endl;
-    std::cout << p.join_to_string(" & ", " ") << std::endl;
+        if(i==6) continue;
+
+        if( i% 2 == 0 &&  (i / 2) % 2 != 0) continue; // only divisible by 2 once
+
+        auto start_design = chrono::high_resolution_clock::now();
+
+        std::unique_ptr<design::PairMOLS> d = std::unique_ptr<design::PairMOLS>(new design::PairMOLS(i));
+
+        auto end_design = chrono::high_resolution_clock::now();
+
+
+        auto start_validation = chrono::high_resolution_clock::now();
+
+        d->validate_mols();
+        
+        auto end_validation = chrono::high_resolution_clock::now();
+
+        cout << i << "," << "-O3" 
+                    << "," <<  chrono::duration_cast<chrono::microseconds>(end_design - start_design).count() / 1000000. 
+                    << "," << chrono::duration_cast<chrono::microseconds>(end_validation - start_validation).count() / 1000000.
+                    << ',' << chrono::duration_cast<chrono::microseconds>(end_validation - start_design).count() / 1000000. << endl;
+    
+    }
    
 }
