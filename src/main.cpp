@@ -153,32 +153,33 @@ int main(int argc, char** argv)
     
  */
     
-    //cout << "parameter,optimization,construction_time,validation_time,total_time" << endl;
+    //cout << "algorithm, parameter,optimization,construction_time" << endl;
     
-    for(int i=3; i<2000; i++)
+    for(int i=100 ; ; i+=100)
     {
+        double sum = 0.;
 
-        if(i==6) continue;
+        int n_runs = 10;
 
-        if( i% 2 == 0 &&  (i / 2) % 2 != 0) continue; // only divisible by 2 once
+        for(int j=0; j<n_runs; j++)
+        {
+            auto start_design = chrono::high_resolution_clock::now();
 
-        auto start_design = chrono::high_resolution_clock::now();
+            std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(i,false));
 
-        std::unique_ptr<design::PairMOLS> d = std::unique_ptr<design::PairMOLS>(new design::PairMOLS(i));
+            auto end_design = chrono::high_resolution_clock::now();
 
-        auto end_design = chrono::high_resolution_clock::now();
+            sum += chrono::duration_cast<chrono::microseconds>(end_design - start_design).count() / 1000000. ;
+        }
 
 
-        auto start_validation = chrono::high_resolution_clock::now();
 
-        d->validate_mols();
-        
-        auto end_validation = chrono::high_resolution_clock::now();
 
-        cout << i << "," << "-O3" 
-                    << "," <<  chrono::duration_cast<chrono::microseconds>(end_design - start_design).count() / 1000000. 
-                    << "," << chrono::duration_cast<chrono::microseconds>(end_validation - start_validation).count() / 1000000.
-                    << ',' << chrono::duration_cast<chrono::microseconds>(end_validation - start_design).count() / 1000000. << endl;
+        cout << "rotation" << ","
+                    << i << "," << "O2" 
+                    << "," <<  sum / n_runs
+                    << endl ;
+
     
     }
    
