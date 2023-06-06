@@ -14,6 +14,8 @@ namespace design
             BalancedTournamentDesign(int n, std::string filename);
 
             virtual bool validate_design();
+
+            int get_memory_size();
            
         private:
             virtual std::vector<std::vector<std::vector<int>>> construct_design(int n);

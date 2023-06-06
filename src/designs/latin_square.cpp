@@ -198,3 +198,11 @@ design::LatinSquare::LatinSquare(int n, int k)
      
 
 }
+
+int design::LatinSquare::get_memory_size()
+{
+    return sizeof(*this) 
+                        + sizeof(this->latin_square) 
+                        + this->latin_square.size() * ( sizeof(this->latin_square[0]) + this->latin_square[0].size() * sizeof(int)); 
+                  
+}

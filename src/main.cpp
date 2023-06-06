@@ -155,7 +155,7 @@ int main(int argc, char** argv)
     
     //cout << "algorithm, parameter,optimization,construction_time" << endl;
     
-    
+    /*
     for(int i=4921 ;i<=4921 ; i+=100)
     {
         double sum = 0.;
@@ -183,12 +183,12 @@ int main(int argc, char** argv)
    
         
     }
-    /*
-    
-    design::PairMOLS pm(15);
-    cout << pm.join_to_string( " & ") << endl;
-    cout << pm.validate_mols() << endl;
     */
+    
+    
+    design::BalancedTournamentDesign pm(101);
+    cout << pm.get_memory_size() << endl;
+    
     
     
 }

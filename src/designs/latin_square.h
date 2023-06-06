@@ -24,6 +24,8 @@ namespace design{
 
             std::vector<std::vector<int>> latin_square;
 
+            int get_memory_size();
+
         private:
 
             std::vector<std::vector<int>> read_latin_square(int n, std::string filename);

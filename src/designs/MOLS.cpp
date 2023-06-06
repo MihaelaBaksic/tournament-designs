@@ -213,3 +213,14 @@ std::string design::PairMOLS::join_to_string(std::string delimiter_pairs, std::s
     }
     return boost::algorithm::join(rows, "\n");
 }
+
+int design::PairMOLS::get_memory_size()
+{
+    int size = sizeof(*this) + (this->ls1->get_memory_size()) * 2;
+    int size_join = sizeof(this->join);
+
+    if(this->join.size() > 0)
+        size_join += this->join.size() * ( sizeof(this->join[0]) + this->join[0].size() * (sizeof(this->join[0][0]) + this->join[0][0].size() * sizeof(int)) );
+
+    return size + size_join;
+}

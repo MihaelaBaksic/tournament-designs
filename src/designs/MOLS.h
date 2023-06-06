@@ -31,6 +31,8 @@ namespace design
 
             static std::vector<std::vector<int>> kronecker_product(std::unique_ptr<design::LatinSquare> & A, std::unique_ptr<design::LatinSquare> & B);
 
+            int get_memory_size();
+
 
         private:
             std::unique_ptr<LatinSquare> ls1;

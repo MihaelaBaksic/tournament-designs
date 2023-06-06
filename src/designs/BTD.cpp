@@ -274,3 +274,11 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_manual(i
     return i;
 }   
 
+int design::BalancedTournamentDesign::get_memory_size()
+{
+    int size = sizeof(*this);
+
+    size += sizeof(this->design) + this->design.size() * ( sizeof(this->design[0]) + this->design[0].size() * (sizeof(this->design[0][0]) + this->design[0][0].size() * sizeof(int)) );  
+
+    return size;
+}
