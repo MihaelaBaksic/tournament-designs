@@ -18,7 +18,7 @@ design::BipartiteTournamentDesign::BipartiteTournamentDesign(int n, std::string 
 
 std::vector<std::vector<std::vector<int>>> design::BipartiteTournamentDesign::construct_design(int n)
 {
-    design::PairMOLS p = design::PairMOLS(n);
+    design::PairMOLS p = design::PairMOLS(n, false);
     return p.get_join();
 }
 

@@ -15,19 +15,20 @@
 #include <boost/range/adaptor/transformed.hpp>
 
 
-design::PairMOLS::PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare* ls2)
+design::PairMOLS::PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare* ls2, bool with_join)
 {
     this->ls1 = ls1;
     this->ls2 = ls2;
 
-    this->join = this->create_join();
-
     int max_value_1 = *std::max_element(this->ls1->latin_square[0].begin(), this->ls1->latin_square[0].end());
     int max_value_2 = *std::max_element(this->ls2->latin_square[0].begin(), this->ls2->latin_square[0].end());
     this->max_element_value = max_value_1 > max_value_2 ? max_value_1 : max_value_2;
+
+    if(with_join)
+        this->join = this->create_join();
 }
 
-design::PairMOLS::PairMOLS(int range_1_lower, int range_1_upper, int range_2_lower, int range_2_upper)
+design::PairMOLS::PairMOLS(int range_1_lower, int range_1_upper, int range_2_lower, int range_2_upper, bool with_join)
 {
     int n1 = range_1_upper - range_1_lower;
     int n2 = range_2_upper - range_2_lower;
@@ -37,12 +38,14 @@ design::PairMOLS::PairMOLS(int range_1_lower, int range_1_upper, int range_2_low
     this->ls1 = new LatinSquare(range_1_lower, range_1_upper, false);
     this->ls2 = new LatinSquare(range_2_lower, range_2_upper, false);
 
-    this->join = this->create_join();
     this->max_element_value = range_2_upper > range_1_upper ? range_2_upper : range_1_upper;
+    
+    if(with_join)
+        this->join = this->create_join();
 }
 
 
-design::PairMOLS::PairMOLS(int n)
+design::PairMOLS::PairMOLS(int n, bool with_join)
 {
     //assert(n > 2 && n != 6);
 
@@ -76,7 +79,8 @@ design::PairMOLS::PairMOLS(int n)
     this->ls1 = new LatinSquare(ls1.n, ls1.latin_square);
     this->ls2 = new LatinSquare(ls2.n, ls2.latin_square);
         
-    this->join = create_join();
+    if(with_join)
+        this->join = this->create_join();
 }
 
 design::PairMOLS::~PairMOLS()
@@ -135,7 +139,10 @@ std::vector<std::vector<std::vector<int>>> design::PairMOLS::create_join()
 
 std::vector<std::vector<std::vector<int>>> design::PairMOLS::get_join()
 {
-    return this->join;
+    if(this->join.size() == 0)
+        return this->create_join();
+
+    else return this->join;
 }
 
 std::string design::PairMOLS::to_string(std::string delimiter)
@@ -151,11 +158,19 @@ std::string design::PairMOLS::to_string(std::string delimiter)
 
 bool design::PairMOLS::validate_mols()
 {
-
+    
     if(this->ls1->n != this->ls2->n)
         return false;
 
     int n = this->ls1->n;
+
+    bool l1_latin = this->ls1->validate_latin_square();
+    if(! l1_latin) return false;
+
+    bool l2_latin = this->ls2->validate_latin_square();
+    if(! l2_latin) return false;
+
+    auto join = this->get_join();
 
     // maximum value for check array initialization
     std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
@@ -164,7 +179,7 @@ bool design::PairMOLS::validate_mols()
     {
         for(int j=0; j<n; j++)
         {
-            auto pair = this->join[i][j];
+            auto pair = join[i][j];
             if(check[pair[0]][pair[1]])
             {
                 std::cout << "error in row " << i << " column " << j << std::endl;
@@ -177,26 +192,6 @@ bool design::PairMOLS::validate_mols()
     return true;
 }
 
-bool design::PairMOLS::has_equal_values()
-{
-        if(this->ls1->n != this->ls2->n)
-        return false;
-
-    int n = this->ls1->n;
-
-    std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
-
-    for(int i= 0; i<this->ls1->n; i++)
-    {
-        for(int j=0; j<this->ls1->n; j++)
-        {
-            auto pair = this->join[i][j];
-            if(pair[0] == pair[1])
-                return true;
-        }
-    }
-    return false;
-}
 
 
 int design::PairMOLS::get_max_element_value()
@@ -205,10 +200,11 @@ int design::PairMOLS::get_max_element_value()
 }
 
 std::string design::PairMOLS::join_to_string(std::string delimiter_pairs, std::string delimiter_elements)
-{
+{   
+    auto join = this->get_join();
     std::vector<std::string> rows;
 
-    for(auto row : this->join)
+    for(auto row : join)
     {
         std::vector<std::string> pair_string;
 

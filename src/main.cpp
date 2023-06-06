@@ -151,11 +151,11 @@ int main(int argc, char** argv)
     std::cout << "Orthogonal? " << validate_mols(product_11, product_22) << std::endl;
 
     
- */
+    */
     
     //cout << "algorithm, parameter,optimization,construction_time" << endl;
     
-    for(int i=100 ; ; i+=100)
+    for(int i=101 ;i<=10001 ; i+=100)
     {
         double sum = 0.;
 
@@ -165,7 +165,7 @@ int main(int argc, char** argv)
         {
             auto start_design = chrono::high_resolution_clock::now();
 
-            std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(i,false));
+            std::unique_ptr<design::PairMOLS> d = std::unique_ptr<design::PairMOLS>(new design::PairMOLS(i, false));
 
             auto end_design = chrono::high_resolution_clock::now();
 
@@ -175,12 +175,21 @@ int main(int argc, char** argv)
 
 
 
-        cout << "rotation" << ","
-                    << i << "," << "O2" 
+        cout << "macneish" << ","
+                    << i << "," << "none" 
                     << "," <<  sum / n_runs
                     << endl ;
 
-    
+        
+
+        
     }
-   
+    
+    /*
+    design::PairMOLS pm(1001);
+    //cout << pm.join_to_string( " & ") << endl;
+    cout << pm.validate_mols() << endl;
+    */
+    
+    
 }
