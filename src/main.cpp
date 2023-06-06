@@ -155,7 +155,7 @@ int main(int argc, char** argv)
     
     //cout << "algorithm, parameter,optimization,construction_time" << endl;
     
-    for(int i=101 ;i<=10001 ; i+=100)
+    for(int i=10001 ;i<=10001 ; i+=100)
     {
         double sum = 0.;
 
@@ -168,6 +168,8 @@ int main(int argc, char** argv)
             std::unique_ptr<design::PairMOLS> d = std::unique_ptr<design::PairMOLS>(new design::PairMOLS(i, false));
 
             auto end_design = chrono::high_resolution_clock::now();
+
+            
 
             sum += chrono::duration_cast<chrono::microseconds>(end_design - start_design).count() / 1000000. ;
         }

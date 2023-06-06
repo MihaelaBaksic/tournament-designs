@@ -2,6 +2,7 @@
 #include <list>
 #include <assert.h>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -52,32 +53,33 @@ design::PairMOLS::PairMOLS(int n, bool with_join)
     // deconstruct n to prime powers (this is an ordered list)
     std::vector<int> prime_powers = get_prime_powers(n);
 
-    design::LatinSquare ls1; 
-    design::LatinSquare ls2; 
+    std::unique_ptr<design::LatinSquare> ls1; 
+    std::unique_ptr<design::LatinSquare> ls2; 
 
     if(prime_powers[0] == 2)
     {
         throw std::invalid_argument( "can't deal with prime power 2" );
     }
     else{
-        ls1 = LatinSquare(prime_powers[0], 1);
-        ls2 = LatinSquare(prime_powers[0], 2);
+        ls1 = std::unique_ptr<LatinSquare>(new LatinSquare(prime_powers[0], 1));
+        ls2 = std::unique_ptr<LatinSquare>(new LatinSquare(prime_powers[0], 2));
     }
     
     for(int i=1; i<prime_powers.size(); i++)
     {
-        design::LatinSquare ls_other_1(prime_powers[i], 1);
-        design::LatinSquare ls_other_2(prime_powers[i], 2);
+        std::unique_ptr<design::LatinSquare> ls_other_1 =  std::unique_ptr<LatinSquare>(new LatinSquare(prime_powers[i], 1));
+        std::unique_ptr<design::LatinSquare> ls_other_2 =  std::unique_ptr<LatinSquare>(new LatinSquare(prime_powers[i], 2));
+
 
         auto product_1 = PairMOLS::kronecker_product(ls1, ls_other_1);
         auto product_2 = PairMOLS::kronecker_product(ls2, ls_other_2);
 
-        ls1 = LatinSquare(product_1.size(), product_1);
-        ls2 = LatinSquare(product_2.size(), product_2);
+        ls1 = std::unique_ptr<LatinSquare>(new LatinSquare(product_1.size(), product_1));
+        ls2 = std::unique_ptr<LatinSquare>(new LatinSquare(product_2.size(), product_2));
     }
 
-    this->ls1 = new LatinSquare(ls1.n, ls1.latin_square);
-    this->ls2 = new LatinSquare(ls2.n, ls2.latin_square);
+    this->ls1 = new LatinSquare(ls1->n, ls1->latin_square);
+    this->ls2 = new LatinSquare(ls2->n, ls2->latin_square);
         
     if(with_join)
         this->join = this->create_join();
@@ -90,10 +92,10 @@ design::PairMOLS::~PairMOLS()
 }
 
 
-std::vector<std::vector<int>> design::PairMOLS::kronecker_product(design::LatinSquare &A, design::LatinSquare &B)
+std::vector<std::vector<int>> design::PairMOLS::kronecker_product(std::unique_ptr<design::LatinSquare> & A, std::unique_ptr<design::LatinSquare> & B)
 {
-    int m = A.n;
-    int n = B.n;
+    int m = A->n;
+    int n = B->n;
 
     // initialise latin square array with the value n
     std::vector<std::vector<int>> ls = std::vector<std::vector<int>>(m*n, std::vector<int>(n*m, n));
@@ -106,12 +108,12 @@ std::vector<std::vector<int>> design::PairMOLS::kronecker_product(design::LatinS
             int a_i = i / n;
             int a_j = j / n;
 
-            ls[i][j] *= A.latin_square[a_i][a_j];
+            ls[i][j] *= A->latin_square[a_i][a_j];
 
             int b_i = i % n;
             int b_j = j % n;
 
-            ls[i][j] += B.latin_square[b_i][b_j];
+            ls[i][j] += B->latin_square[b_i][b_j];
         }
     }
     

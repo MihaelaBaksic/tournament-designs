@@ -30,7 +30,7 @@ namespace design
 
             bool validate_mols();
 
-            static std::vector<std::vector<int>> kronecker_product(design::LatinSquare &A, design::LatinSquare &B);
+            static std::vector<std::vector<int>> kronecker_product(std::unique_ptr<design::LatinSquare> & A, std::unique_ptr<design::LatinSquare> & B);
 
 
         private:
