@@ -12,7 +12,6 @@ namespace design
         public:
             BalancedTournamentDesign(int n);
             BalancedTournamentDesign(int n, std::string filename);
-            ~BalancedTournamentDesign();
 
             virtual bool validate_design();
            

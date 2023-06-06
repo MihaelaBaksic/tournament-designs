@@ -155,21 +155,20 @@ int main(int argc, char** argv)
     
     //cout << "algorithm, parameter,optimization,construction_time" << endl;
     
-    for(int i=101 ;i<=10001 ; i+=100)
+    /*
+    for(int i=2011 ;i<=3011 ; i+=100)
     {
         double sum = 0.;
 
-        int n_runs = 10;
+        int n_runs = 1;
 
         for(int j=0; j<n_runs; j++)
         {
             auto start_design = chrono::high_resolution_clock::now();
 
-            std::unique_ptr<design::PairMOLS> d = std::unique_ptr<design::PairMOLS>(new design::PairMOLS(i, false));
+            std::unique_ptr<design::BalancedTournamentDesign> d = std::unique_ptr<design::BalancedTournamentDesign>(new design::BalancedTournamentDesign(i));
 
             auto end_design = chrono::high_resolution_clock::now();
-
-            
 
             sum += chrono::duration_cast<chrono::microseconds>(end_design - start_design).count() / 1000000. ;
         }
@@ -177,21 +176,19 @@ int main(int argc, char** argv)
 
 
 
-        cout << "macneish" << ","
-                    << i << "," << "none" 
+        cout << "FBTD" << ","
+                    << i << "," << "O3" 
                     << "," <<  sum / n_runs
                     << endl ;
-
-        
-
+   
         
     }
-    
-    /*
-    design::PairMOLS pm(1001);
-    //cout << pm.join_to_string( " & ") << endl;
-    cout << pm.validate_mols() << endl;
     */
+    
+    design::PairMOLS pm(15);
+    cout << pm.join_to_string( " & ") << endl;
+    cout << pm.validate_mols() << endl;
+    
     
     
 }
