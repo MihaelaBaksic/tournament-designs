@@ -155,12 +155,12 @@ int main(int argc, char** argv)
     
     //cout << "algorithm, parameter,optimization,construction_time" << endl;
     
-    /*
-    for(int i=2011 ;i<=3011 ; i+=100)
+    
+    for(int i=4921 ;i<=4921 ; i+=100)
     {
         double sum = 0.;
 
-        int n_runs = 1;
+        int n_runs = 10;
 
         for(int j=0; j<n_runs; j++)
         {
@@ -183,12 +183,12 @@ int main(int argc, char** argv)
    
         
     }
-    */
+    /*
     
     design::PairMOLS pm(15);
     cout << pm.join_to_string( " & ") << endl;
     cout << pm.validate_mols() << endl;
-    
+    */
     
     
 }
