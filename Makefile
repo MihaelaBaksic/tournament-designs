@@ -1,6 +1,6 @@
 
 CC=g++
-CC_FLAGS= -std=c++17 -g -O3
+CC_FLAGS= -std=c++17 -g 
 CC_FLAGS_TEST = -lcppunit -Wall
 
 SRC = src

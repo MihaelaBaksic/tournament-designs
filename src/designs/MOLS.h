@@ -18,7 +18,6 @@ namespace design
             PairMOLS(int n, bool with_join = false);
             PairMOLS(int range_1_lower, int range_1_upper, int range_2_lower, int range_2_upper, bool with_join = false);
             PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare* ls2, bool with_join = false);
-            ~PairMOLS();
             
             std::vector<std::vector<std::vector<int>>> get_join();
 
@@ -34,8 +33,8 @@ namespace design
 
 
         private:
-            LatinSquare* ls1;
-            LatinSquare* ls2;
+            std::unique_ptr<LatinSquare> ls1;
+            std::unique_ptr<LatinSquare> ls2;
             std::vector<std::vector<std::vector<int>>> join;
             int max_element_value;
 

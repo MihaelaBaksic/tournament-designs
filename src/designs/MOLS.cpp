@@ -18,8 +18,8 @@
 
 design::PairMOLS::PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare* ls2, bool with_join)
 {
-    this->ls1 = ls1;
-    this->ls2 = ls2;
+    this->ls1 = std::unique_ptr<design::LatinSquare> (ls1);
+    this->ls2 = std::unique_ptr<design::LatinSquare> (ls2);
 
     int max_value_1 = *std::max_element(this->ls1->latin_square[0].begin(), this->ls1->latin_square[0].end());
     int max_value_2 = *std::max_element(this->ls2->latin_square[0].begin(), this->ls2->latin_square[0].end());
@@ -36,8 +36,8 @@ design::PairMOLS::PairMOLS(int range_1_lower, int range_1_upper, int range_2_low
 
     assert(n1 > 0 && n2 > 0 && n1==n2);
 
-    this->ls1 = new LatinSquare(range_1_lower, range_1_upper, false);
-    this->ls2 = new LatinSquare(range_2_lower, range_2_upper, false);
+    this->ls1 = std::unique_ptr<design::LatinSquare> (new LatinSquare(range_1_lower, range_1_upper, false));
+    this->ls2 = std::unique_ptr<design::LatinSquare> (new LatinSquare(range_2_lower, range_2_upper, false));
 
     this->max_element_value = range_2_upper > range_1_upper ? range_2_upper : range_1_upper;
     
@@ -78,17 +78,11 @@ design::PairMOLS::PairMOLS(int n, bool with_join)
         ls2 = std::unique_ptr<LatinSquare>(new LatinSquare(product_2.size(), product_2));
     }
 
-    this->ls1 = new LatinSquare(ls1->n, ls1->latin_square);
-    this->ls2 = new LatinSquare(ls2->n, ls2->latin_square);
+    this->ls1 = std::unique_ptr<design::LatinSquare> (new LatinSquare(ls1->n, ls1->latin_square));
+    this->ls2 = std::unique_ptr<design::LatinSquare> (new LatinSquare(ls2->n, ls2->latin_square));
         
     if(with_join)
         this->join = this->create_join();
-}
-
-design::PairMOLS::~PairMOLS()
-{
-    free(this->ls1);
-    free(this->ls2);
 }
 
 

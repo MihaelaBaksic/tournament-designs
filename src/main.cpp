@@ -155,7 +155,7 @@ int main(int argc, char** argv)
     
     //cout << "algorithm, parameter,optimization,construction_time" << endl;
     
-    for(int i=10001 ;i<=10001 ; i+=100)
+    for(int i=101 ;i<=10001 ; i+=100)
     {
         double sum = 0.;
 
