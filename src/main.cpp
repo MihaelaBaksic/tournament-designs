@@ -185,10 +185,31 @@ int main(int argc, char** argv)
     }
     */
     
+    //cout << "design,n,memory_size" << endl;
     
-    design::BalancedTournamentDesign pm(101);
-    cout << pm.get_memory_size() << endl;
+    //design::BalancedTournamentDesign pm(101);
+    //cout << pm.get_memory_size() << endl;
+
+    /*
+    for(int i=11; i<= 10011; i+=100)
+    {
+        unique_ptr<design::LatinSquare> a = unique_ptr<design::LatinSquare>(new design::LatinSquare(i));
+        cout << "LS," << i << "," << a->get_memory_size() << endl; 
+
+    }
+
+    for(int i=11; i<= 10011; i+=100)
+    {
+
+        unique_ptr<design::PairMOLS> b = unique_ptr<design::PairMOLS>(new design::PairMOLS(i));
+        cout << "PairMOLS," << i << "," << b->get_memory_size() << endl; 
+
+    }
     
+
+    std::unique_ptr<design::PairMOLS> design = std::unique_ptr<design::PairMOLS>(new design::PairMOLS(2011, true));
     
+    cout << design->get_memory_size() << endl;
     
+    */
 }

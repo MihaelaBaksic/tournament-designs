@@ -48,3 +48,13 @@ bool design::BipartiteTournamentDesign::validate_design()
 
 
 
+int design::BipartiteTournamentDesign::get_memory_size()
+{
+    int size = sizeof(*this);
+
+    size += sizeof(this->design) + this->design.size() * ( sizeof(this->design[0]) + this->design[0].size() * (sizeof(this->design[0][0]) + this->design[0][0].size() * sizeof(int)) );  
+
+    return size;
+}
+
+

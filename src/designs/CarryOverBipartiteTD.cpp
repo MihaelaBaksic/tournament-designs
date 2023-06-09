@@ -93,3 +93,16 @@ std::vector<std::vector<std::vector<int>>> design::COBipartiteTournamentDesign::
     
     return design;
 }
+
+
+
+int design::COBipartiteTournamentDesign::get_memory_size()
+{
+    int size = sizeof(*this);
+
+    size += this->latin_square->get_memory_size();
+
+    size += sizeof(this->design) + this->design.size() * ( sizeof(this->design[0]) + this->design[0].size() * (sizeof(this->design[0][0]) + this->design[0][0].size() * sizeof(int)) );  
+
+    return size;
+}

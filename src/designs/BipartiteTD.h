@@ -14,6 +14,8 @@ namespace design
 
             virtual bool validate_design();
 
+            int get_memory_size();
+
         protected:
             virtual std::vector<std::vector<std::vector<int>>> construct_design(int n);
 

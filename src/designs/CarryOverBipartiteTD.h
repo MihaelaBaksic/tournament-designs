@@ -17,6 +17,8 @@ namespace design
 
             virtual bool validate_design();
 
+            int get_memory_size();
+
         private:
 
             std::unique_ptr<LatinSquare> latin_square;
