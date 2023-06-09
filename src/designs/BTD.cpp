@@ -16,8 +16,7 @@ design::BalancedTournamentDesign::BalancedTournamentDesign(int n) : TournamentDe
     this->design = this->construct_design(this->n);
 
     int i = 0;
-    
-    //assert (this->validate_design() && "Failed at constructing the design");
+
 }
 
 
@@ -26,9 +25,6 @@ design::BalancedTournamentDesign::BalancedTournamentDesign(int n, string filenam
     assert (this->n > 2 && "Invalid side parameter");
 
     this->design = this->read_design(this->n, filename);
-    
-    //assert (this->validate_design() && "Design from file is not a valid BTD");
-
 }
 
 
@@ -269,9 +265,9 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_manual(i
 
     string filename = "./src/templates/FBTD_" + std::to_string(n) + ".in";
 
-    auto i = TournamentDesign::read_design(n, filename);
+    auto design = TournamentDesign::read_design(n, filename);
 
-    return i;
+    return design;
 }   
 
 int design::BalancedTournamentDesign::get_memory_size()

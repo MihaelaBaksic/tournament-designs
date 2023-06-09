@@ -16,7 +16,7 @@ namespace design {
 
             virtual bool validate_design() = 0;
 
-            virtual std::string to_string();
+            virtual std::string to_string(std::string delimiter_pairs, std::string delimiter_elements);
             static std::vector<std::vector<std::vector<int>>> read_design(int n, std::string filename);
             
         protected:

@@ -27,7 +27,7 @@ design::TournamentDesign::TournamentDesign(int n)
 }
 
 
-std::string design::TournamentDesign::to_string()
+std::string design::TournamentDesign::to_string(std::string delimiter_pairs, std::string delimiter_elements)
 {   
 
     vector<string> rows;
@@ -37,11 +37,11 @@ std::string design::TournamentDesign::to_string()
         vector<string> pair_string;
 
         std::transform( row.begin(), row.end(), std::back_inserter(pair_string), 
-                            [](vector<int> pair) { 
-                                return boost::algorithm::join( pair | boost::adaptors::transformed( static_cast<std::string(*)(int)>(std::to_string) ), " " ); 
+                            [delimiter_elements](std::vector<int> pair) { 
+                                return boost::algorithm::join( pair | boost::adaptors::transformed( static_cast<std::string(*)(int)>(std::to_string) ), delimiter_elements ); 
                             } );
 
-        rows.push_back(boost::algorithm::join(pair_string, ";"));
+        rows.push_back(boost::algorithm::join(pair_string, delimiter_pairs));
     }
     return boost::algorithm::join(rows, "\n");
 }
