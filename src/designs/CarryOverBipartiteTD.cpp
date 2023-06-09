@@ -9,12 +9,12 @@ design::COBipartiteTournamentDesign::COBipartiteTournamentDesign(int n): Biparti
     this->latin_square = std::unique_ptr<LatinSquare>(new LatinSquare(n, true));
     this->design = this->construct_design(n);
 
-    for(auto row : this->latin_square->latin_square)
+    /*for(auto row : this->latin_square->latin_square)
     {
         for(auto elem : row)
             std::cout << elem << " ";
         std::cout << std::endl;
-    }
+    }*/
 
 }
 
@@ -94,6 +94,16 @@ std::vector<std::vector<std::vector<int>>> design::COBipartiteTournamentDesign::
     return design;
 }
 
+
+std::string design::COBipartiteTournamentDesign::to_string(std::string delimiter_pairs, std::string delimiter_elements)
+{
+    std::string str = "";
+    
+    str += this->latin_square->to_string(delimiter_elements);
+    str += "\n";
+    str += BipartiteTournamentDesign::to_string(delimiter_pairs, delimiter_elements);
+    return str;
+}
 
 
 int design::COBipartiteTournamentDesign::get_memory_size()

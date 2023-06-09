@@ -16,7 +16,7 @@ namespace design
             COBipartiteTournamentDesign(int n, std::string filename);
 
             virtual bool validate_design();
-
+            virtual std::string to_string(std::string delimiter_pairs = ";", std::string delimiter_elements = " ");
             int get_memory_size();
 
         private:

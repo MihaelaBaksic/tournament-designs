@@ -212,4 +212,11 @@ int main(int argc, char** argv)
     cout << design->get_memory_size() << endl;
     
     */
+
+    for(int i=11; i<= 11; i+=100)
+    {
+        unique_ptr<design::COBipartiteTournamentDesign> a = unique_ptr<design::COBipartiteTournamentDesign>(new design::COBipartiteTournamentDesign(i));
+        cout << a->to_string() << endl; 
+
+    }
 }
