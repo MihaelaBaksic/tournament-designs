@@ -48,8 +48,6 @@ design::PairMOLS::PairMOLS(int range_1_lower, int range_1_upper, int range_2_low
 
 design::PairMOLS::PairMOLS(int n, bool with_join)
 {
-    //assert(n > 2 && n != 6);
-
     // deconstruct n to prime powers (this is an ordered list)
     std::vector<int> prime_powers = get_prime_powers(n);
 

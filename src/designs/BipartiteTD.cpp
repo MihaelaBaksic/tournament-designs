@@ -3,10 +3,11 @@
 #include "BipartiteTD.h"
 #include "MOLS.h"
 
-design::BipartiteTournamentDesign::BipartiteTournamentDesign(int n): TournamentDesign(n)
+design::BipartiteTournamentDesign::BipartiteTournamentDesign(int n, bool base): TournamentDesign(n)
 {
     this->n_rounds = n; // Bipartite tournaments have n rounds
-    this->design = this->construct_design(n);
+    if(! base)
+        this->design = this->construct_design(n);
 }
 
 design::BipartiteTournamentDesign::BipartiteTournamentDesign(int n, std::string filename): TournamentDesign(n)
@@ -61,4 +62,6 @@ void design::BipartiteTournamentDesign::assert_parameter(int n)
 {
     if(! (n > 2))
         throw std::invalid_argument("n > 2 must hold");
+
+    design::PairMOLS::assert_parameter(n);
 }

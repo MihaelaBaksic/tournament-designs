@@ -9,7 +9,7 @@ namespace design
     {
         public:
 
-            BipartiteTournamentDesign(int n);
+            BipartiteTournamentDesign(int n, bool base = false);
             BipartiteTournamentDesign(int n, std::string filename);
 
             virtual bool validate_design();

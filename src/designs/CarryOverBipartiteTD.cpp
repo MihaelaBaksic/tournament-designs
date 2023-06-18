@@ -4,7 +4,7 @@
 #include<iostream>
 #include<memory>
 
-design::COBipartiteTournamentDesign::COBipartiteTournamentDesign(int n): BipartiteTournamentDesign(n)
+design::COBipartiteTournamentDesign::COBipartiteTournamentDesign(int n):BipartiteTournamentDesign(n, true)
 {
     this->latin_square = std::unique_ptr<LatinSquare>(new LatinSquare(n, true));
     this->design = this->construct_design(n);
