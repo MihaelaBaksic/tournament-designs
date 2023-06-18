@@ -30,10 +30,17 @@ class LSCompleteTest: public CppUnit::TestFixture
         void test3()
         {
             int n = 3;
-            std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, true));
-            bool validation_result = d->validate_latin_square(true);
 
-            CPPUNIT_ASSERT(validation_result == false);    
+            try{
+                std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, true));
+                bool validation_result = d->validate_latin_square(true);
+
+                CPPUNIT_ASSERT(validation_result == false);
+            }
+            catch(const std::invalid_argument& e)
+            {
+                CPPUNIT_ASSERT_ASSERTION_PASS();
+            }
         }
 
         void test6()
@@ -48,10 +55,17 @@ class LSCompleteTest: public CppUnit::TestFixture
         void test9()
         {
             int n = 9;
-            std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, true));
-            bool validation_result = d->validate_latin_square(true);
+            
+            try{
+                std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, true));
+                bool validation_result = d->validate_latin_square(true);
 
-            CPPUNIT_ASSERT(validation_result == false);    
+                CPPUNIT_ASSERT(validation_result == false);
+            }
+            catch(const std::invalid_argument& e)
+            {
+                CPPUNIT_ASSERT_ASSERTION_PASS();
+            }  
         }
 
         void test20()
@@ -66,10 +80,16 @@ class LSCompleteTest: public CppUnit::TestFixture
         void test35()
         {
             int n = 35;
-            std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, true));
-            bool validation_result = d->validate_latin_square(true);
+            try{
+                std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, true));
+                bool validation_result = d->validate_latin_square(true);
 
-            CPPUNIT_ASSERT(validation_result == false);      
+                CPPUNIT_ASSERT(validation_result == false);
+            }
+            catch(const std::invalid_argument& e)
+            {
+                CPPUNIT_ASSERT_ASSERTION_PASS();
+            }    
         }
 
         void test100()
@@ -85,10 +105,16 @@ class LSCompleteTest: public CppUnit::TestFixture
         void test135()
         {
             int n = 135;
-            std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, true));
-            bool validation_result = d->validate_latin_square(true);
+            try{
+                std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, true));
+                bool validation_result = d->validate_latin_square(true);
 
-            CPPUNIT_ASSERT(validation_result == false);    
+                CPPUNIT_ASSERT(validation_result == false);
+            }
+            catch(const std::invalid_argument& e)
+            {
+                CPPUNIT_ASSERT_ASSERTION_PASS();
+            }   
         }
 
         void test1000()
@@ -103,10 +129,16 @@ class LSCompleteTest: public CppUnit::TestFixture
         void test1001()
         {
             int n = 1001;
-            std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, true));
-            bool validation_result = d->validate_latin_square(true);
+            try{
+                std::unique_ptr<design::LatinSquare> d = std::unique_ptr<design::LatinSquare>(new design::LatinSquare(n, true));
+                bool validation_result = d->validate_latin_square(true);
 
-            CPPUNIT_ASSERT(validation_result == false);   
+                CPPUNIT_ASSERT(validation_result == false);
+            }
+            catch(const std::invalid_argument& e)
+            {
+                CPPUNIT_ASSERT_ASSERTION_PASS();
+            }
         }
 
         

@@ -18,6 +18,8 @@
 
 design::PairMOLS::PairMOLS(int n, design::LatinSquare* ls1, design::LatinSquare* ls2, bool with_join)
 {
+    PairMOLS::assert_parameter(n);
+
     this->ls1 = std::unique_ptr<design::LatinSquare> (ls1);
     this->ls2 = std::unique_ptr<design::LatinSquare> (ls2);
 
@@ -34,6 +36,9 @@ design::PairMOLS::PairMOLS(int range_1_lower, int range_1_upper, int range_2_low
     int n1 = range_1_upper - range_1_lower;
     int n2 = range_2_upper - range_2_lower;
 
+    PairMOLS::assert_parameter(n1);
+    PairMOLS::assert_parameter(n2);
+
     assert(n1 > 0 && n2 > 0 && n1==n2);
 
     this->ls1 = std::unique_ptr<design::LatinSquare> (new LatinSquare(range_1_lower, range_1_upper, false));
@@ -48,6 +53,8 @@ design::PairMOLS::PairMOLS(int range_1_lower, int range_1_upper, int range_2_low
 
 design::PairMOLS::PairMOLS(int n, bool with_join)
 {
+    PairMOLS::assert_parameter(n);
+    
     // deconstruct n to prime powers (this is an ordered list)
     std::vector<int> prime_powers = get_prime_powers(n);
 

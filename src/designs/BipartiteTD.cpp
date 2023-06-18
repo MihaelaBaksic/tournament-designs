@@ -4,6 +4,9 @@
 
 design::BipartiteTournamentDesign::BipartiteTournamentDesign(int n, bool base): TournamentDesign(n)
 {
+    if(!base)
+        BipartiteTournamentDesign::assert_parameter(n);
+
     this->n_rounds = n; // Bipartite tournaments have n rounds
     if(! base)
         this->design = this->construct_design(n);
@@ -26,6 +29,9 @@ std::vector<std::vector<std::vector<int>>> design::BipartiteTournamentDesign::co
 bool design::BipartiteTournamentDesign::validate_design()
 {
     int n = this->n;
+
+    if(this->design.size() == 0)
+        throw std::runtime_error("Trying to validate a design without vector initialization");
 
     std::vector<std::vector<bool>> check = std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
 
@@ -50,6 +56,9 @@ bool design::BipartiteTournamentDesign::validate_design()
 
 int design::BipartiteTournamentDesign::get_memory_size()
 {
+    if(this->design.size() == 0)
+        throw std::runtime_error("Trying to calculate size of a design without vector initialization");
+
     int size = sizeof(*this);
 
     size += sizeof(this->design) + this->design.size() * ( sizeof(this->design[0]) + this->design[0].size() * (sizeof(this->design[0][0]) + this->design[0][0].size() * sizeof(int)) );  

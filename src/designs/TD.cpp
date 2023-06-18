@@ -19,6 +19,8 @@ using namespace std;
 
 design::TournamentDesign::TournamentDesign(int n)
 {
+    TournamentDesign::assert_parameter(n);
+    
     this->n = n;
     this->n_teams = 2*n;
     this->n_courts = n;

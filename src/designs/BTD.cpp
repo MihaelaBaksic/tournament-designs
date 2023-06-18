@@ -11,12 +11,16 @@ using namespace std;
 
 design::BalancedTournamentDesign::BalancedTournamentDesign(int n) : TournamentDesign(n) 
 {
+    BalancedTournamentDesign::assert_parameter(n);
+
     this->design = this->construct_design(this->n);
 }
 
 
 design::BalancedTournamentDesign::BalancedTournamentDesign(int n, string filename) : TournamentDesign(n) 
 {
+    BalancedTournamentDesign::assert_parameter(n);
+    
     this->design = this->read_design(this->n, filename);
 }
 

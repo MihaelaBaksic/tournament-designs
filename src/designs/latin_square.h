@@ -25,7 +25,7 @@ namespace design{
 
             /* constructs basic Latin square by rotating or a complete Latin square
             with elements from [lower_bound, upper_bound] */
-            LatinSquare(int lower_bound, int upper_bound, bool complete=false); 
+            LatinSquare(int lower_bound, int upper_bound, bool complete); 
 
             // Reading a Latin square from the file with a given filename
             LatinSquare(int n, std::string filename);

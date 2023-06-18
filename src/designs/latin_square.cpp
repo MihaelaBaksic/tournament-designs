@@ -18,7 +18,8 @@ design::LatinSquare::LatinSquare() {}
 
 design::LatinSquare::LatinSquare(int n, bool complete)
 {
-    assert(n > 1);
+    LatinSquare::assert_parameter(n, complete);
+
     this->n = n;
 
     this->latin_square = std::vector<std::vector<int>>(n, std::vector<int>(n, -1));
@@ -67,16 +68,33 @@ design::LatinSquare::LatinSquare(int lower_bound, int upper_bound, bool complete
 
 design::LatinSquare::LatinSquare(int n, std::vector<std::vector<int>> ls)
 {
-    assert(n > 1);
+    LatinSquare::assert_parameter(n);
     this->n = n;
     this->latin_square = ls;
 }
 
 design::LatinSquare::LatinSquare(int n, std::string filename)
 {
-    assert(n >= 1);
+    LatinSquare::assert_parameter(n);
     this->n = n;
     this->latin_square = this->read_latin_square(n, filename);
+}
+
+
+design::LatinSquare::LatinSquare(int n, int k)
+{
+    LatinSquare::assert_parameter(n, k);
+    this->n = n;
+    std::vector<int> gf = std::vector<int>(n, 0);
+    this->latin_square = std::vector<std::vector<int>>(n, std::vector<int>(n, 0));
+
+    for(int i=0; i< n-1; i++)
+        gf[i] = i+1;
+    
+    for(int i=0; i<n; i++)
+        for(int j=0; j<n; j++)
+            this->latin_square[i][j] = (gf[i]*gf[k-1] + gf[j]) % n;
+
 }
 
 
@@ -180,23 +198,6 @@ bool design::LatinSquare::validate_latin_square(bool complete)
     return true;
 }
 
-
-design::LatinSquare::LatinSquare(int n, int k)
-{
-    this->n = n;
-    std::vector<int> gf = std::vector<int>(n, 0);
-    this->latin_square = std::vector<std::vector<int>>(n, std::vector<int>(n, 0));
-
-    for(int i=0; i< n-1; i++)
-        gf[i] = i+1;
-    
-    for(int i=0; i<n; i++)
-        for(int j=0; j<n; j++)
-            this->latin_square[i][j] = (gf[i]*gf[k-1] + gf[j]) % n;
-
-     
-
-}
 
 int design::LatinSquare::get_memory_size()
 {
