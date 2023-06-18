@@ -6,6 +6,9 @@
 #ifndef H_TOURNAMENT_DESIGN
 #define H_TOURNAMENT_DESIGN
 
+/*
+    Abstract class implementing a Tournament design
+*/
 namespace design {
 
     class TournamentDesign
@@ -14,11 +17,13 @@ namespace design {
         public:
             TournamentDesign(int n);
 
+            /* Performs validation of the design according to the definition */
             virtual bool validate_design() = 0;
 
             virtual std::string to_string(std::string delimiter_pairs = ";", std::string delimiter_elements = " ");
             static std::vector<std::vector<std::vector<int>>> read_design(int n, std::string filename);
 
+            /* Asserts if the construct is defined for the given parameter */
             static void assert_parameter(int n);
             
         protected:

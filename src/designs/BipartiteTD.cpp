@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "BipartiteTD.h"
 #include "MOLS.h"
 
