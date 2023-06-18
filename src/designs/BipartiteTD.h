@@ -16,6 +16,8 @@ namespace design
 
             int get_memory_size();
 
+            static void assert_parameter(int n);
+
         protected:
             virtual std::vector<std::vector<std::vector<int>>> construct_design(int n);
 

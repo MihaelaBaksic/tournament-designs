@@ -85,3 +85,10 @@ vector<vector<vector<int>>> design::TournamentDesign::read_design(int n, string 
 
     return design;
 }
+
+
+void design::TournamentDesign::assert_parameter(int n)
+{
+    if(! (n > 2))
+        throw std::invalid_argument("n > 2 must hold");
+}

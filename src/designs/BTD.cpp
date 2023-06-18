@@ -11,19 +11,12 @@ using namespace std;
 
 design::BalancedTournamentDesign::BalancedTournamentDesign(int n) : TournamentDesign(n) 
 {
-    assert (this->n > 2 && "Invalid side parameter");
-
     this->design = this->construct_design(this->n);
-
-    int i = 0;
-
 }
 
 
 design::BalancedTournamentDesign::BalancedTournamentDesign(int n, string filename) : TournamentDesign(n) 
 {
-    assert (this->n > 2 && "Invalid side parameter");
-
     this->design = this->read_design(this->n, filename);
 }
 
@@ -258,11 +251,7 @@ vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_odd_side
 
 
 vector<vector<vector<int>>> design::BalancedTournamentDesign::construct_manual(int n)
-{
-    assert ((n == 4 || n == 6 ) && "Invalid side argument for construct manual"); 
-    
-    cout << "Manual construction of BTD(" << n << ")" << endl;
-
+{  
     string filename = "./src/templates/FBTD_" + std::to_string(n) + ".in";
 
     auto design = TournamentDesign::read_design(n, filename);
@@ -277,4 +266,10 @@ int design::BalancedTournamentDesign::get_memory_size()
     size += sizeof(this->design) + this->design.size() * ( sizeof(this->design[0]) + this->design[0].size() * (sizeof(this->design[0][0]) + this->design[0][0].size() * sizeof(int)) );  
 
     return size;
+}
+
+void design::BalancedTournamentDesign::assert_parameter(int n)
+{
+    if(! (n > 2))
+        throw std::invalid_argument("n > 2 must hold");
 }

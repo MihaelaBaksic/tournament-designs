@@ -19,6 +19,8 @@ namespace design
             virtual std::string to_string(std::string delimiter_pairs = ";", std::string delimiter_elements = " ");
             int get_memory_size();
 
+            static void assert_parameter(int n);
+
         private:
 
             std::unique_ptr<LatinSquare> latin_square;

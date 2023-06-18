@@ -9,13 +9,6 @@ design::COBipartiteTournamentDesign::COBipartiteTournamentDesign(int n): Biparti
     this->latin_square = std::unique_ptr<LatinSquare>(new LatinSquare(n, true));
     this->design = this->construct_design(n);
 
-    /*for(auto row : this->latin_square->latin_square)
-    {
-        for(auto elem : row)
-            std::cout << elem << " ";
-        std::cout << std::endl;
-    }*/
-
 }
 
 
@@ -115,4 +108,10 @@ int design::COBipartiteTournamentDesign::get_memory_size()
     size += sizeof(this->design) + this->design.size() * ( sizeof(this->design[0]) + this->design[0].size() * (sizeof(this->design[0][0]) + this->design[0][0].size() * sizeof(int)) );  
 
     return size;
+}
+
+void design::COBipartiteTournamentDesign::assert_parameter(int n)
+{
+    if(! (n > 0))
+        throw std::invalid_argument("n > 0 must hold");
 }

@@ -57,4 +57,8 @@ int design::BipartiteTournamentDesign::get_memory_size()
     return size;
 }
 
-
+void design::BipartiteTournamentDesign::assert_parameter(int n)
+{
+    if(! (n > 2))
+        throw std::invalid_argument("n > 2 must hold");
+}

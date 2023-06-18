@@ -18,6 +18,8 @@ namespace design {
 
             virtual std::string to_string(std::string delimiter_pairs = ";", std::string delimiter_elements = " ");
             static std::vector<std::vector<std::vector<int>>> read_design(int n, std::string filename);
+
+            static void assert_parameter(int n);
             
         protected:
             int n;

@@ -183,7 +183,6 @@ bool design::LatinSquare::validate_latin_square(bool complete)
 
 design::LatinSquare::LatinSquare(int n, int k)
 {
-    assert( k >= 1 && k<= n - 1);
     this->n = n;
     std::vector<int> gf = std::vector<int>(n, 0);
     this->latin_square = std::vector<std::vector<int>>(n, std::vector<int>(n, 0));
@@ -205,4 +204,19 @@ int design::LatinSquare::get_memory_size()
                         + sizeof(this->latin_square) 
                         + this->latin_square.size() * ( sizeof(this->latin_square[0]) + this->latin_square[0].size() * sizeof(int)); 
                   
+}
+
+
+void design::LatinSquare::assert_parameter(int n)
+{
+    if(! (n > 1))
+        throw std::invalid_argument("n > 1 must hold");
+}
+
+void design::LatinSquare::assert_parameter(int n, int k)
+{
+    design::LatinSquare::assert_parameter(n);
+    
+    if(!(k >= 1 && k<= n - 1))
+        throw std::invalid_argument("k >= 1 && k<= n - 1 must hold");
 }

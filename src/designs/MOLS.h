@@ -33,6 +33,8 @@ namespace design
 
             int get_memory_size();
 
+            static void assert_parameter(int n);
+
 
         private:
             std::unique_ptr<LatinSquare> ls1;

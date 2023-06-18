@@ -58,7 +58,7 @@ design::PairMOLS::PairMOLS(int n, bool with_join)
 
     if(prime_powers[0] == 2)
     {
-        throw std::invalid_argument( "can't deal with prime power 2" );
+        throw std::invalid_argument( "Can't deal with prime power 2" );
     }
     else{
         ls1 = std::unique_ptr<LatinSquare>(new LatinSquare(prime_powers[0], 1));
@@ -223,4 +223,10 @@ int design::PairMOLS::get_memory_size()
         size_join += this->join.size() * ( sizeof(this->join[0]) + this->join[0].size() * (sizeof(this->join[0][0]) + this->join[0][0].size() * sizeof(int)) );
 
     return size + size_join;
+}
+
+void design::PairMOLS::assert_parameter(int n)
+{
+    if(!(n > 2))
+        throw std::invalid_argument("n > 2 must hold");
 }

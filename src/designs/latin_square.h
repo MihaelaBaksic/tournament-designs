@@ -24,6 +24,9 @@ namespace design{
 
             std::vector<std::vector<int>> latin_square;
 
+            static void assert_parameter(int n);
+            static void assert_parameter(int n, int k);
+
             int get_memory_size();
 
         private:
