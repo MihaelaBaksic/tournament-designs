@@ -12,7 +12,7 @@ OBJ = $(BUILD)/objects
 MKDIR_P = mkdir -p
 
 ALL_OBJECTS = $(OBJ)/io.o $(OBJ)/utils.o $(OBJ)/TD.o $(OBJ)/BTD.o $(OBJ)/latin_square.o  $(OBJ)/BipartiteTD.o $(OBJ)/CarryOverBipartiteTD.o $(OBJ)/MOLS.o
-TEST_OBJECTS = $(OBJ_TEST)/BTD_test.o
+TEST_OBJECTS = $(OBJ_TEST)/BTD_test.o $(OBJ_TEST)/LS_rotation_test.o  $(OBJ_TEST)/LS_complete_test.o
 
 # define build directories
 .PHONY: DIRECTORIES
@@ -84,6 +84,13 @@ $(OBJ)/CarryOverBipartiteTD.o: $(SRC)/designs/CarryOverBipartiteTD.h $(SRC)/desi
 
 $(OBJ_TEST)/BTD_test.o : $(TEST)/BTD_test.cpp
 	$(CC) -c $(TEST)/BTD_test.cpp -o $(OBJ_TEST)/BTD_test.o $(CC_FLAGS) $(CC_FLAGS_TEST)
+
+$(OBJ_TEST)/LS_rotation_test.o : $(TEST)/LS_rotation_test.cpp
+	$(CC) -c $(TEST)/LS_rotation_test.cpp -o $(OBJ_TEST)/LS_rotation_test.o $(CC_FLAGS) $(CC_FLAGS_TEST)
+
+$(OBJ_TEST)/LS_complete_test.o : $(TEST)/LS_complete_test.cpp
+	$(CC) -c $(TEST)/LS_complete_test.cpp -o $(OBJ_TEST)/LS_complete_test.o $(CC_FLAGS) $(CC_FLAGS_TEST)
+
 
 $(OBJ_TEST)/test.o : $(TEST_OBJECTS)
 	$(CC) -c $(TEST)/test.cpp -o $(OBJ_TEST)/test.o $(CC_FLAGS) $(CC_FLAGS_TEST)

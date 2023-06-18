@@ -15,6 +15,8 @@ class BTDOddSideTest: public CppUnit::TestFixture
     CPPUNIT_TEST(test9);
     CPPUNIT_TEST(test35);
     CPPUNIT_TEST(test135);
+    CPPUNIT_TEST(test1001);
+
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -51,6 +53,15 @@ class BTDOddSideTest: public CppUnit::TestFixture
         void test135()
         {
             int n = 135;
+            std::unique_ptr<design::TournamentDesign> d = std::unique_ptr<design::TournamentDesign>(new design::BalancedTournamentDesign(n));
+            bool validation_result = d->validate_design();
+
+            CPPUNIT_ASSERT(validation_result == true);  
+        }
+
+        void test1001()
+        {
+            int n = 1001;
             std::unique_ptr<design::TournamentDesign> d = std::unique_ptr<design::TournamentDesign>(new design::BalancedTournamentDesign(n));
             bool validation_result = d->validate_design();
 

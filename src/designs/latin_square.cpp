@@ -207,10 +207,13 @@ int design::LatinSquare::get_memory_size()
 }
 
 
-void design::LatinSquare::assert_parameter(int n)
+void design::LatinSquare::assert_parameter(int n, bool complete)
 {
     if(! (n > 1))
         throw std::invalid_argument("n > 1 must hold");
+
+    if(complete && !(n % 2 == 0))
+        throw std::invalid_argument("n must be even");
 }
 
 void design::LatinSquare::assert_parameter(int n, int k)
