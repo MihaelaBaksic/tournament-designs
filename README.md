@@ -1,1 +1,5 @@
 # tournament-designs
+
+Tournament designs play a crucial role in various fields, such as sports scheduling, social network analysis, and experimental design. This thesis explores the construction of tournament designs using Latin squares and Mutually Orthogonal Latin Squares (MOLS). The existing algorithms for constructing Balanced tournament designs and Bipartite tournament designs were implemented. The focus of this study is to assess the time and space complexity of the algorithms. A comprehensive analysis is performed on various size parameter values measuring the execution time, memory usage, and scalability of the algorithms.
+
+The results demonstrate that the implemented algorithms efficiently construct tournament designs using Latin squares and MOLS. The time and space complexity analysis reveals the scalability of the algorithms, making them suitable for large-scale applications. The performance measurements indicate that the designs produced possess desirable properties and meet the requirements of real-world scenarios.
